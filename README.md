@@ -1,4 +1,4 @@
-# The Last Of Us Part II Discord RPC Mod
+<h1 align="center">The Last Of Us Part II Discord RPC Mod</h1>
 
 ![The Last Of Us Part II Discord RPC Mod](promo/TLOU2-Discord-RPC-promo-1920x1080.png)
 
