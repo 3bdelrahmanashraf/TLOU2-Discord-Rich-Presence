@@ -41,7 +41,7 @@ mutex blocks duplicates).
 The text works immediately. Images need assets uploaded to your Discord app
 (ID `1402372564365475861`):
 
-1. Open <https://discord.com/developers/applications/1402372564365475861>.
+1. Open <https://discord.com/developers/applications/<Your Application>>.
 2. **General Information** → set the app name to `The Last of Us Part II`
    (this is the bold first line of the status).
 3. **Rich Presence → Art Assets** → upload PNGs with these **exact** keys:
