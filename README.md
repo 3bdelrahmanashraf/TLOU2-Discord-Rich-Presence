@@ -6,6 +6,8 @@ Shows what you're playing in The Last of Us Part II Remastered as a Discord stat
 
 ![Discord Rich Presence example](promo/discord.png)
 
+**[Download on Nexus Mods](https://www.nexusmods.com/thelastofuspart2/mods/965?tab=description)**
+
 It reads the game's own autosave metadata (`params.json`), so there is **no
 game modification**, no memory reading, and nothing to update when the game
 patches. It runs hidden, polls every few seconds, clears your status the moment
