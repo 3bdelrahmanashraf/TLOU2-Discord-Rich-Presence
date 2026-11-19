@@ -22,8 +22,7 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 ## Quick start
 
 1. Make sure Discord is running.
-2. Double-click **`start_tlou2_rpc.vbs`**.
-3. Start the game and load a save.
+2. Start the game and the mod sees the save automatically.
 
 Nothing visible happens - that is normal. A log is written to `rpc.log`.
 
