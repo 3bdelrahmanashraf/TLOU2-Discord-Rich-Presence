@@ -1,14 +1,10 @@
-# TLOU2 Discord Rich Presence
+# The Last Of Us Part II Discord RPC Mod
+
+![The Last Of Us Part II Discord RPC Mod](promo/TLOU2-Discord-RPC-promo-1920x1080.png)
 
 Shows what you're playing in The Last of Us Part II Remastered as a Discord status:
 
-```
-The Last of Us Part II                        <- app name (Discord)
-  Seattle Day 2 · Hillcrest                   <- details (chapter)
-  Playing as Abby · Moderate+ NG+ Full Loadout · 23 collectibles
-  2:14:07
-  [ game art ]                         [ Abby ]  <- large / small image
-```
+![Discord Rich Presence example](promo/discord.png)
 
 It reads the game's own autosave metadata (`params.json`), so there is **no
 game modification**, no memory reading, and nothing to update when the game
