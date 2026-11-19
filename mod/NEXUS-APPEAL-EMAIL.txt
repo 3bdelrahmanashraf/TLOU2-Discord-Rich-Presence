@@ -1,0 +1,149 @@
+Subject: Quarantined file review request - The Last of Us Part II Discord Rich
+Presence (ASI plugin)
+
+[FILL IN: mod page URL]
+TLOU2-Discord-Rich-Presence-1.0.0.zip
+[FILL IN: file ID if Nexus shows one]
+
+Hello,
+
+My upload was quarantined by the automated checks. I would like to request a
+manual review. Below is everything needed to verify the file, and I have
+already replaced the upload with a rebuilt version that removes the two things
+most likely to have triggered it.
+
+WHAT THE MOD DOES
+-----------------
+It publishes a Discord Rich Presence status for The Last of Us Part II
+Remastered: the current chapter, which character is being played, difficulty and
+run modifiers, collectible count, and playtime.
+
+It reads the game's own save metadata (params.json, plus the NTFS last-access
+time of the save slots so that loading a save from the menu is reflected
+immediately). It does not modify saves, does not read process memory, does not
+inject into or hook the game, and writes nothing outside its own folder except
+the Discord presence itself, which is sent over Discord's local named pipe.
+There is no network traffic other than that local pipe.
+
+WHAT IS IN THE ARCHIVE
+----------------------
+TLOU2-Discord-Rich-Presence-1.0.0.zip
+  size      55,277 bytes
+  SHA-256   8E28B3F391DF1139A14417BC185363ED5469D6735A64A70E0164A503BBBAA625
+
+  TLOU2DiscordRPC.asi ............. 81,689 bytes, SHA-256 CD8685FE54DDFF3824DFC92CB75E42CE81C0608B9ECEC75AE54FC6EDEC84F27E
+  avrt.dll ........................ 44,858 bytes, SHA-256 5486A747329FC3DA69726CDCDFFA57ACCD946A290E97B719B5B72286F9DA2F5E
+  TLOU2DiscordRPC\tlou2_rpc.py .... 32,731 bytes, SHA-256 49E818AFBDA8380952582E45BFB609C5AD87CBBD5AFF3598A86BD9E1CAFF8D93
+  README.txt ...................... 4,793 bytes, SHA-256 02DE2491CBEF999CB35504D7CB953AA5AD0837CE062A7B3E8D3C4F3922380306
+
+That is four files: two tiny binaries built from the source below (a .asi and
+one 44 KB DLL proxy), readable Python source, and a text README. There are zero
+bundled EXEs, zero installers, zero auto-updaters, no Python runtime, no third-
+party DLLs and no archives inside the archive.
+
+Both binaries import only KERNEL32.dll, USER32.dll and msvcrt.dll. Neither has
+any networking import. The proxy loads the real System32 avrt.dll and the .asi;
+the .asi starts the Python helper as a separate process and exits its thread.
+
+THE .py FILE IS THE SOURCE, NOT A COMPILED BINARY
+-------------------------------------------------
+The Python helper is shipped as plain text (tlou2_rpc.py). It uses only the
+Python standard library - no pip packages. The user installs Python 3 from
+python.org; nothing else is downloaded or installed by the mod.
+
+The Discord application ID inside it is stored XOR/base64-encoded so that end
+users cannot accidentally edit or break the display. This is obfuscation, not
+encryption, and it is documented in the source. There is no hidden payload: the
+whole helper is readable and it is functionally the same file that is in the
+repository.
+
+WHAT I CHANGED IN THIS UPLOAD
+-----------------------------
+The previous build bundled a trimmed Python runtime (about 7 MB, containing
+python.exe, pythonw.exe, python313.dll and .pyd files) and its standard library
+was an embedded python313.zip - an archive inside the archive. I have removed
+the entire runtime folder and now require the user to install stock Python 3.
+The upload dropped from 7 MB to ~54 KB and contains no nested archive of any
+kind. I believe those two items are what the automated checks objected to.
+
+A later revision added the 44 KB avrt.dll proxy described below: the game has
+no ASI loader, so without it the plugin never started. It is a few dozen lines
+of source, linked against the Windows system DLL it forwards to, and it ships
+as source in the repository.
+
+SOURCE CODE
+-----------
+https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence
+
+The repository contains:
+  tlou2_rpc.py          the helper, identical to the shipped file except for the
+                        embedded settings blob
+  dll\launcher.c        full source of the .asi
+  dll\avrt_proxy.c      source of the 44 KB proxy (loads System32 avrt.dll,
+                        forwards its 20 exports, loads the .asi)
+  dll\avrt_stubs.S      naked tail-call stubs for those 20 exports
+  dll\avrt_proxy.def    export list
+  pack.ps1              the build script that produces the uploaded archive
+  config.json.example   settings template
+  mod\README.txt        the README that ships in the archive
+
+BUILD STEPS
+-----------
+Windows 10/11 x64, PowerShell 5.1, mingw-w64 and any Python 3 on PATH.
+
+  git clone https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence.git
+  cd <repository>
+  copy config.json.example config.json
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\pack.ps1 `
+    -Gcc "C:\path\to\x86_64-w64-mingw32-gcc.exe"
+
+The build script:
+  1. compiles the plugin and the proxy with
+
+       x86_64-w64-mingw32-gcc -O2 -shared -static-libgcc -Wl,--image-base=0x140000000 -o TLOU2DiscordRPC.asi dll\launcher.c
+       x86_64-w64-mingw32-gcc -O2 -shared -static-libgcc -Wl,--image-base=0x140000000 -o avrt.dll dll\avrt_proxy.c dll\avrt_stubs.S dll\avrt_proxy.def
+
+     (I used w64devkit 2.11.0, GCC 16.2.0, x86_64-w64-mingw32 target),
+  2. reads config.json, XORs it with 0x5A, base64-encodes it, and substitutes it
+     into tlou2_rpc.py for the shipped copy,
+  3. runs the shipped script once as a smoke test and fails if it cannot build a
+     presence (on a machine with no TLOU2 saves it exits with "no usable save
+     found", which the build accepts - there is simply nothing to read, and a
+     reviewer's PC will normally be in that state),
+  4. refuses to package if a config.json, a runtime folder or a nested archive is
+     present, then zips with pinned timestamps.
+
+The build is reproducible. The compiler commands pin the PE image base, because
+w64devkit's linker otherwise randomises it on every run and that alone changes
+the header checksum and every absolute pointer in .data. Building the repository
+as-is produces both binaries with SHA-256
+
+  TLOU2DiscordRPC.asi  CD8685FE54DDFF3824DFC92CB75E42CE81C0608B9ECEC75AE54FC6EDEC84F27E
+  avrt.dll             5486A747329FC3DA69726CDCDFFA57ACCD946A290E97B719B5B72286F9DA2F5E
+
+identical to the ones in the upload, so you can verify the binaries you received
+against the source you can read. I checked this by building from two separate
+copies of the repository: both produced the same archive hash. The archive hash
+differs from a build of the public repository only because the template carries
+a placeholder Discord application ID: the published build embeds my own ID, one
+string inside the settings blob, which does not affect any executable code.
+Zipping with that one string restored reproduces the uploaded archive byte for
+byte.
+
+WHY THERE IS A DLL AND AN .asi
+------------------------------
+The game imports AVRT.dll from Windows but the install has no ASI loader, so an
+.asi alone never runs. avrt.dll is a 44 KB proxy that loads the genuine
+System32\avrt.dll, resolves its 20 exported functions into a jump table, and on
+a background thread loads TLOU2DiscordRPC.asi from the game folder. The .asi
+waits 2.5 seconds, starts the Python helper, and returns. Neither file patches
+the game executable or hooks any game function: the proxy only forwards Windows
+AVRT calls, and the plugin only spawns a process.
+
+If unsigned binaries are flagged by VirusTotal heuristics, I understand, but I
+would be grateful if the files could be reviewed on the basis of the above and
+the public source rather than the heuristics alone.
+
+Thank you for your time.
+
+[FILL IN: your Nexus username]

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TLOU2 Discord Rich Presence - Nexus header</title>
+<style>
+  :root {
+    --bg: #07090b;
+    --card: #232428;
+    --text: #f2f3f5;
+    --muted: #b1b7c0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    width: 1300px; height: 372px;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #stage { position: relative; width: 1300px; height: 372px; overflow: hidden; }
+
+  .figure { position: absolute; left: 458px; top: 0; width: 392px; height: 372px; }
+  .figure img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    opacity: .95;
+  }
+
+  .shade-left {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, #07090b 0%, rgba(7,9,11,.97) 17%, rgba(7,9,11,.72) 29%, rgba(7,9,11,0) 42%);
+  }
+  .shade-right {
+    position: absolute; inset: 0;
+    background: linear-gradient(270deg, #07090b 16%, rgba(7,9,11,.9) 30%, rgba(7,9,11,0) 52%);
+  }
+  .shade-bottom {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(4,5,7,.85) 0%, rgba(4,5,7,0) 46%);
+  }
+  .glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(420px 260px at 78% 50%, rgba(88,101,242,.16), rgba(88,101,242,0) 72%);
+  }
+  .vignette { position: absolute; inset: 0; box-shadow: inset 0 0 120px 24px rgba(0,0,0,.6); }
+
+  .copy { position: absolute; left: 56px; top: 50%; width: 400px; transform: translateY(-50%); }
+  .kicker {
+    font-size: 11px; font-weight: 600; letter-spacing: .22em;
+    color: #98a1ab; text-transform: uppercase;
+  }
+  h1 {
+    margin: 12px 0 0; font-size: 40px; line-height: 1; font-weight: 800;
+    letter-spacing: -.018em; text-transform: uppercase;
+    text-shadow: 0 6px 30px rgba(0,0,0,.6);
+  }
+  h1 span { display: block; }
+  .sub {
+    margin: 14px 0 0; font-size: 14px; line-height: 1.5;
+    color: #c3c9d1; max-width: 372px; font-weight: 400;
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 16px; padding: 6px 11px 6px 9px; border-radius: 999px;
+    background: rgba(88,101,242,.14);
+    border: 1px solid rgba(88,101,242,.32);
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #b9c1ff;
+  }
+  .tag i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #5865f2; font-style: normal;
+  }
+
+  /* Discord "playing a game" activity block */
+  .card {
+    position: absolute; right: 48px; top: 50%; width: 392px;
+    transform: translateY(-50%);
+    border-radius: 12px; overflow: hidden;
+    background: var(--card);
+    padding: 16px 0 17px;
+    box-shadow: 0 22px 60px rgba(0,0,0,.66), 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .playing-label {
+    padding: 0 18px 8px; font-size: 10px; font-weight: 700;
+    letter-spacing: .07em; color: var(--muted); text-transform: uppercase;
+  }
+  .activity { display: flex; gap: 12px; padding: 0 18px; }
+  .thumb-wrap { position: relative; width: 56px; height: 56px; flex: 0 0 56px; }
+  .thumb {
+    width: 56px; height: 56px; border-radius: 7px;
+    background-image: url("../assets/raw/tlou2.png");
+    background-size: cover; background-position: 50% 14%;
+  }
+  .mini {
+    position: absolute; right: -5px; bottom: -5px;
+    width: 23px; height: 23px; border-radius: 50%;
+    border: 2px solid var(--card);
+    background-image: url("../assets/ellie.png");
+    background-size: cover; background-position: 50% 26%;
+  }
+  .lines { min-width: 0; padding-top: 0; }
+  .game { font-size: 14px; font-weight: 700; }
+  .l1, .l2 { font-size: 12.5px; color: var(--muted); margin-top: 4px; white-space: nowrap; }
+  .l2 { color: #cdd3db; }
+  .ellapsed { font-size: 11px; color: var(--muted); margin-top: 7px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="figure"><img src="../pngs/Part_II_Ellie_infobox.png" alt=""></div>
+  <div class="glow"></div>
+  <div class="shade-left"></div>
+  <div class="shade-right"></div>
+  <div class="shade-bottom"></div>
+  <div class="vignette"></div>
+
+  <div class="copy">
+    <div class="kicker">The Last of Us Part II</div>
+    <h1><span>Discord</span><span>Rich Presence</span></h1>
+    <p class="sub">Your chapter, who you are playing as, difficulty and collectibles &mdash; live on Discord while you play.</p>
+  </div>
+
+  <div class="card">
+    <div class="playing-label">Playing a game</div>
+    <div class="activity">
+      <div class="thumb-wrap">
+        <div class="thumb"></div>
+        <div class="mini"></div>
+      </div>
+      <div class="lines">
+        <div class="game">The Last of Us Part II</div>
+        <div class="l1">Seattle Day 2 &middot; Hillcrest</div>
+        <div class="l2">Playing as Ellie &middot; Moderate &middot; 23 collectibles</div>
+        <div class="ellapsed">02:14:07 elapsed</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

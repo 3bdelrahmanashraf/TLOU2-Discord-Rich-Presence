@@ -1,0 +1,40 @@
+{
+  "client_id": "1402372564365475861",
+  "game_process": "tlou-ii.exe",
+  "save_dir": "",
+  "poll_seconds": 3,
+  "idle_exit_seconds": 0,
+  "exit_when_game_closes": true,
+  "relaunch_grace_seconds": 180,
+  "detect_loaded_save": true,
+
+  "presence": {
+    "show_chapter": true,
+    "show_character": true,
+    "show_difficulty": true,
+    "show_modifier": true,
+    "show_collectibles": true,
+    "show_playtime": true,
+
+    "details_template": "{chapter}",
+    "state_template": "{character} \u00b7 {difficulty} \u00b7 {collectibles}",
+    "character_prefix": "Playing as ",
+
+    "large_image": "tlou2",
+    "large_text": "The Last of Us Part II",
+    "small_image_from_character": true,
+    "character_assets": {
+      "Ellie": "ellie",
+      "Abby": "abby",
+      "Joel": "joel",
+      "Ellie & Abby": "ellie"
+    }
+  },
+
+  "character": "auto",
+  "character_overrides": {
+    "The Island": "Abby",
+    "The Escape": "Abby",
+    "The Confrontation": "Abby"
+  }
+}

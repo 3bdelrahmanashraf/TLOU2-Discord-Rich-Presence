@@ -1,0 +1,5 @@
+# This is a private source archive: it intentionally includes the real
+# config.json, the compiled .asi / DLL and the release zip so the published
+# package can be reproduced end to end. Only runtime noise is ignored.
+__pycache__/
+*.log

@@ -1,0 +1,84 @@
+[size=6][b]The Last of Us Part II - Discord Rich Presence[/b][/size]
+
+Shows your chapter, who you are playing as, difficulty, collectibles and playtime as a Discord status while you play The Last of Us Part II Remastered.
+
+[quote]
+[b]The Last of Us Part II[/b]
+Seattle Day 2 - Hillcrest
+Playing as Ellie - Moderate - 23 collectibles
+2:14:07
+[/quote]
+
+[size=5][b]Features[/b][/size]
+[list]
+[*]Chapter and subchapter pulled from your actual save (Seattle Day 1 - The Birthday Gift, Jackson - Prologue, ...)
+[*]Character detection (Ellie / Abby / Joel) with game art for the large image and a character portrait for the small image
+[*]Difficulty and run modifiers (NG+, Full Loadout, Permadeath, ...)
+[*]Collectibles count
+[*]Playtime that keeps ticking in Discord between saves
+[*]Updates within a few seconds when you load a save from the load menu, no restart needed
+[*]Clears your status as soon as you quit and exits on its own - nothing runs in the background while the game is closed
+[*]Reads only the game's save metadata: no memory reading, no save editing, no game files touched
+[/list]
+
+[size=5][b]Requirements[/b][/size]
+[list]
+[*]Discord desktop app, running (browser Discord has no Rich Presence)
+[*]Windows 10 or 11, 64-bit
+[*]No ASI loader needed - the download includes a tiny proxy that starts the plugin. Works alongside other mods.
+[*][b]Python 3[/b] for Windows, from python.org/downloads. One time, about 30 MB. No pip, no extra packages - the mod uses only the standard library. The "py" launcher that comes with Python is enough, so you do not need to change PATH.
+[/list]
+
+[size=5][b]Installation[/b][/size]
+[list=1]
+[*]Install Python 3 if you do not have it (python.org/downloads, defaults are fine), then restart if the installer asks.
+[*]Open your game folder (the one with tlou-ii.exe). Steam: right-click the game > Manage > Browse local files.
+[*]Extract the download straight into that folder, so you end up with:
+[code]tlou-ii.exe
+avrt.dll
+TLOU2DiscordRPC.asi
+TLOU2DiscordRPC\  (folder)[/code]
+[list][*][b]avrt.dll[/b] is a 44 KB proxy: the game asks Windows for AVRT, the proxy passes every call straight through and loads the plugin. It does not patch the game. If another mod already has an avrt.dll there, don't overwrite it - ask me for a build with a different proxy name.[/list]
+[*]Start Discord, then the game. The status appears within a few seconds.
+[/list]
+
+Nothing else to configure. The mod starts itself with the game.
+
+[b]Verify it is running:[/b] open TLOU2DiscordRPC\launcher.log - a "[i]started[/i]" line means the plugin fired. TLOU2DiscordRPC\rpc.log shows what it published. If it says "no Python found", Python is not installed for this user account; install it and start the game again.
+
+[size=5][b]Settings[/b][/size]
+There is none - and nothing to break. The display is baked into the helper when it is built, so there is no config file to hunt for, mis-edit, or point at a different Discord application. Install it and play.
+
+[size=5][b]FAQ[/b][/size]
+[b]Does this touch my saves?[/b] No. It only reads params.json (the save's title block) and Windows file access times.
+
+[b]Does it work with other mods?[/b] Yes. It runs as a separate plugin and does not patch the game, saves or memory. The only thing to watch is another mod using the same avrt.dll filename.
+
+[b]Do I have to install Python?[/b] Yes, but only once and only the stock installer from python.org - no pip, no packages, nothing to configure. The mod is a small status helper; shipping a whole Python runtime inside the download made the file large and set off antivirus and Nexus scanners, so it now uses the Python already on your PC.
+
+[b]Why does the status follow my autosave?[/b] The game rewrites the current autosave at checkpoints and chapter starts. When you load another save from the menu, the mod notices that save was just read and switches immediately.
+
+[b]Text shows but no images?[/b] Art assets live on the Discord application, not on your PC; if they are unavailable the mod falls back to text only instead of breaking.
+
+[b]Nothing appears?[/b] Check that Discord is running and that launcher.log exists. If it does not, make sure avrt.dll and TLOU2DiscordRPC.asi are both directly in the game folder next to tlou-ii.exe.
+
+[b]Do I need an ASI loader?[/b] No. avrt.dll in the download is the loader; it only forwards to the real Windows AVRT DLL and starts the plugin.
+
+[size=5][b]Uninstall[/b][/size]
+Delete TLOU2DiscordRPC.asi and the TLOU2DiscordRPC folder from the game folder. Nothing else is changed, no registry keys, no services.
+
+[size=5][b]Changelog[/b][/size]
+[b]1.0.0[/b]
+[list]
+[*]First release: chapter, character, difficulty, collectibles, playtime
+[*]Immediate update when a save is loaded from the load menu
+[*]Starts with the game via a tiny proxy; no ASI loader and no bundled runtime needed
+[/list]
+
+[size=5][b]Source code[/b][/size]
+Full source, including the C launcher and the build script: [url=https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence]GitHub repository[/url]
+
+The download contains two small compiled files: [b]TLOU2DiscordRPC.asi[/b] (81 KB, built from [code]dll/launcher.c[/code]) and [b]avrt.dll[/b] (44 KB, built from [code]dll/avrt_proxy.c[/code] and [code]dll/avrt_stubs.S[/code]). The proxy forwards to the real Windows AVRT DLL and loads the plugin; the plugin waits, finds the helper script and starts it. Neither touches the game. The helper itself ships as readable Python source and uses only the standard library.
+
+[size=5][b]Credits[/b][/size]
+Data source: the game's own save metadata. The Last of Us is a trademark of Sony Interactive Entertainment. Unofficial fan tool, not affiliated with Naughty Dog or Sony.
