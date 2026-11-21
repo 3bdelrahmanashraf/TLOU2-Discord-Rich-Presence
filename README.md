@@ -55,11 +55,16 @@ The text works immediately. Images need assets uploaded to your Discord app:
 
    512×512 PNG is the safe size; square crops look best. Ready-made 512×512
    files are already in the `assets\` folder next to this README.
-4. Wait ~5-10 minutes for Discord to publish the assets.
+4. **Mission art (optional):** the large image changes with the mission.
+   `DISCORD-ASSETS.txt` lists all 46 mission keys (`hillcrest`,
+   `the_birthday_gift`, `the_confrontation`, `2425_constance`, ...) grouped by
+   chapter. Upload a PNG under each key you want to use. The hover text is the
+   mission name automatically.
+5. Wait ~5-10 minutes for Discord to publish the assets.
 
-Until the assets exist, the app detects the rejection and **retries without
-images**, so you never lose the status text. Rename the keys in `config.json`
-if you prefer different ones.
+Until a mission key exists, the helper retries with `tlou2`, so the box art and
+character icons keep working while you add art. If even those are missing it
+falls back to text only; the status text never breaks.
 
 ---
 
@@ -139,7 +144,8 @@ the shipped `tlou2_rpc.py`. The released mod has no settings file, on purpose.
 | `presence.details_template` | Line 1. Default `"{chapter}"`. |
 | `presence.state_template` | Line 2. Default `"{character} · {difficulty} · {collectibles}"`. Empty parts disappear. |
 | `presence.character_prefix` | Text before the character name. Default `"Playing as "`. Set `""` for just `Ellie`. |
-| `presence.large_image` / `large_text` | Large asset key and its hover text. |
+| `presence.large_image` / `large_text` | Fallback large asset key and its hover text. |
+| `presence.large_text_template` | Large-image hover text. Default `"{subchapter}"`; set `""` to use `large_text`. |
 | `presence.small_image_from_character` | Use the character portrait as the small image. |
 | `presence.character_assets` | Character name → asset key. |
 | `character` | `auto`, or force `Ellie` / `Abby` / `Joel`. |
@@ -178,7 +184,7 @@ else defaults to Ellie. If a chapter ever guesses wrong, add it to
 | "no usable save found" | Play until the first checkpoint; the file only exists after an autosave. |
 | Nothing appears with the plugin | Check `launcher.log`; if it is missing, make sure `avrt.dll` and the `.asi` are both in the game folder. |
 | Status lags behind | Expected - it updates at checkpoints, not per second. Loading a save updates it within ~3 s. |
-| No images, text only | Assets not uploaded yet, or key names don't match the table above. |
+| Mission art not showing | That mission key isn't uploaded yet - see `DISCORD-ASSETS.txt`. It falls back to `tlou2` until you upload it. |
 | Two copies running | Not possible; the second instance exits silently. |
 | Wrong character | Edit `character_overrides` or set `character`. |
 
@@ -194,7 +200,8 @@ else defaults to Ellie. If a chapter ever guesses wrong, add it to
 | `config.json` | All settings. |
 | `start_tlou2_rpc.vbs` | Silent launcher (hidden window). |
 | `rpc.log` | Runtime log, created on first run. |
-| `assets\*.png` | The four 512×512 Discord art assets. |
+| `assets\*.png` | The four ready-made 512×512 Discord art assets. |
+| `DISCORD-ASSETS.txt` | Checklist of all 46 mission asset keys + 4 base/character keys to upload. |
 | `pngs\` | Source art for the character portraits. |
 | `make_assets.ps1` | Rebuilds `assets\` from `pngs\` and `assets\raw\tlou2.png`. |
 | `dll\launcher.c` | ASI plugin that starts the helper with the game. |

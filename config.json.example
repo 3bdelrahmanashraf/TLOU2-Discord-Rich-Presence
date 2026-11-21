@@ -22,6 +22,7 @@
 
     "large_image": "tlou2",
     "large_text": "The Last of Us Part II",
+    "large_text_template": "{subchapter}",
     "small_image_from_character": true,
     "character_assets": {
       "Ellie": "ellie",

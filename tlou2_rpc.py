@@ -76,6 +76,7 @@ DEFAULTS = {
         "character_prefix": "Playing as ",
         "large_image": "tlou2",
         "large_text": "The Last of Us Part II",
+        "large_text_template": "{subchapter}",
         "small_image_from_character": True,
         "character_assets": {
             "Ellie": "ellie",
@@ -97,6 +98,69 @@ ABBY_SUBCHAPTERS = {
     "the confrontation", "the flooded city",
 }
 JOEL_SUBCHAPTERS = {"prologue"}
+
+# Discord Art Asset key for each story mission. The subchapter name from the
+# save is normalised (lowercase, one underscore per separator) and looked up
+# here; anything not in this table falls back to the base "tlou2" image.
+# Upload one PNG per key in this table to the Discord application; see
+# DISCORD-ASSETS.txt for the full checklist.
+MISSION_ASSETS = {
+    # Jackson / Prologue (Ellie)
+    "prologue": "prologue",
+    "waking_up": "waking_up",
+    "the_overlook": "the_overlook",
+    "patrol": "patrol",
+    "the_horde": "the_horde",
+    "the_chalet": "the_chalet",
+    "packing_up": "packing_up",
+    # Seattle Day 1 (Ellie)
+    "the_gate": "the_gate",
+    "downtown": "downtown",
+    "eastbrook_elementary": "eastbrook_elementary",
+    "capitol_hill": "capitol_hill",
+    "channel_13": "channel_13",
+    "the_tunnels": "the_tunnels",
+    "the_theatre": "the_theatre",
+    "the_birthday_gift": "the_birthday_gift",
+    # Seattle Day 2 (Ellie)
+    "hillcrest": "hillcrest",
+    "finding_strings": "finding_strings",
+    "the_seraphites": "the_seraphites",
+    "st_marys_hospital": "st_marys_hospital",
+    # Seattle Day 3 (Ellie)
+    "road_to_the_aquarium": "road_to_the_aquarium",
+    "the_flooded_city": "the_flooded_city",
+    "infiltration": "infiltration",
+    # Flashback / epilogue
+    "tracking_lesson": "tracking_lesson",
+    "the_farm": "the_farm",
+    "epilogue": "epilogue",
+    # Seattle Day 1 (Abby)
+    "the_stadium": "the_stadium",
+    "on_foot": "on_foot",
+    "the_forward_base": "the_forward_base",
+    "the_aquarium": "the_aquarium",
+    "hostile_territory": "hostile_territory",
+    "winter_visit": "winter_visit",
+    "the_forest": "the_forest",
+    "the_coast": "the_coast",
+    "return_to_the_coast": "return_to_the_coast",
+    # Seattle Day 2 (Abby)
+    "the_shortcut": "the_shortcut",
+    "the_descent": "the_descent",
+    "ground_zero": "ground_zero",
+    "return_to_the_aquarium": "return_to_the_aquarium",
+    # Seattle Day 3 (Abby)
+    "the_marina": "the_marina",
+    "the_island": "the_island",
+    "the_escape": "the_escape",
+    "the_confrontation": "the_confrontation",
+    # Santa Barbara
+    "2425_constance": "2425_constance",
+    "pushing_inland": "pushing_inland",
+    "the_resort": "the_resort",
+    "the_beach": "the_beach",
+}
 
 PLAYTIME_RE = re.compile(
     r"(?:(\d+)\s*hr\s*)?(?:(\d+)\s*min\s*)?(\d+)\s*sec", re.IGNORECASE
@@ -278,6 +342,23 @@ def parse_playtime(detail):
     return total, match
 
 
+def normalise_key(text):
+    """Turn a mission name into the lowercase key used by Discord assets."""
+    text = (text or "").lower()
+    text = re.sub(r"['\u2018\u2019]", "", text)
+    return re.sub(r"[^a-z0-9]+", "_", text).strip("_")
+
+
+def mission_asset(chapter_name, subchapter, character):
+    """Discord art asset key for the current mission, or "" if unknown.
+
+    chapter_name and character are kept in the signature for callers, but the
+    mapping is by mission name alone: "The Farm" uses one shared key in both
+    campaigns.
+    """
+    return MISSION_ASSETS.get(normalise_key(subchapter), "")
+
+
 def parse_save(detail, cfg):
     """Turn a save's detail block into display fields."""
     lines = [line.strip() for line in detail.replace("\r\n", "\n").split("\n")]
@@ -305,6 +386,11 @@ def parse_save(detail, cfg):
     coll_match = re.search(r"Collectibles\s+(\d+)", detail)
     collectibles = int(coll_match.group(1)) if coll_match else None
 
+    if " - " in chapter_raw:
+        chapter_name, subchapter = [part.strip() for part in chapter_raw.split(" - ", 1)]
+    else:
+        chapter_name, subchapter = chapter_raw, ""
+
     if chapter_raw.upper() == "COMPLETE":
         chapter_display = "Story complete"
         character = "Ellie & Abby"
@@ -319,6 +405,9 @@ def parse_save(detail, cfg):
     return {
         "chapter_raw": chapter_raw,
         "chapter": chapter_display,
+        "chapter_name": chapter_name,
+        "subchapter": subchapter,
+        "mission_asset": mission_asset(chapter_name, subchapter, character),
         "character": character,
         "difficulty": difficulty,
         "modifiers": modifiers,
@@ -425,7 +514,8 @@ def build_activity(state, cfg):
     presence = cfg["presence"]
     if state is None:
         state = {
-            "chapter": "The Last of Us Part II", "character": "",
+            "chapter": "The Last of Us Part II", "chapter_name": "",
+            "subchapter": "", "mission_asset": "", "character": "",
             "difficulty": "", "modifiers": "", "collectibles": None,
             "playtime": None,
         }
@@ -471,11 +561,26 @@ def build_activity(state, cfg):
         activity["timestamps"] = {"start": int(time.time()) - int(state["playtime"])}
 
     assets = {}
-    large = (presence.get("large_image") or "").strip()
+    fallback_image = (presence.get("large_image") or "").strip()
+    large = state.get("mission_asset") or fallback_image
     if large:
         assets["large_image"] = large
-        if presence.get("large_text"):
-            assets["large_text"] = str(presence["large_text"])[:128]
+        large_text = str(presence.get("large_text") or "").strip()
+        template = str(presence.get("large_text_template") or "").strip()
+        if template:
+            try:
+                rendered = template.format(
+                    chapter=state.get("chapter", ""),
+                    chapter_name=state.get("chapter_name", ""),
+                    subchapter=state.get("subchapter", ""),
+                    character=character_name,
+                ).strip()
+            except (KeyError, IndexError, ValueError):
+                rendered = ""
+            if rendered:
+                large_text = rendered
+        if large_text:
+            assets["large_text"] = large_text[:128]
     if presence.get("small_image_from_character") and character_name:
         key = (presence.get("character_assets") or {}).get(character_name, "")
         if key:
@@ -691,6 +796,7 @@ def run(cfg, force=False):
         return 2
 
     poll = max(2, int(cfg.get("poll_seconds", 5)))
+    base_image = str((cfg.get("presence") or {}).get("large_image") or "tlou2").strip() or "tlou2"
     exe = str(cfg.get("game_process", "tlou-ii.exe")).strip() or "tlou-ii.exe"
     idle_exit = max(0, int(cfg.get("idle_exit_seconds", 900)))
 
@@ -788,8 +894,18 @@ def run(cfg, force=False):
                 if not ok:
                     log("presence rejected: %s" % error)
                     if "asset" in error.lower() and "assets" in activity:
+                        # A mission key may not be uploaded yet. Retry with the
+                        # base image before giving up on images entirely, so the
+                        # character icons keep working while art is added.
+                        bad_large = activity["assets"].get("large_image", "")
+                        if bad_large and bad_large != base_image:
+                            log("asset key '%s' unavailable - retrying with %s"
+                                % (bad_large, base_image))
+                            activity["assets"]["large_image"] = base_image
+                            ok, error = ipc.set_activity(activity)
+                    if not ok and "asset" in error.lower() and "assets" in activity:
                         assets_enabled = False
-                        log("asset key missing - retrying without images")
+                        log("asset keys unavailable - retrying without images")
                         activity.pop("assets", None)
                         ok, error = ipc.set_activity(activity)
                     if not ok:
@@ -850,6 +966,9 @@ def main():
             "slot": state["slot"],
             "selection": state["selection"],
             "chapter": state["chapter"],
+            "chapter_name": state["chapter_name"],
+            "subchapter": state["subchapter"],
+            "mission_asset": state["mission_asset"],
             "character": state["character"],
             "difficulty": state["difficulty"],
             "modifiers": state["modifiers"],

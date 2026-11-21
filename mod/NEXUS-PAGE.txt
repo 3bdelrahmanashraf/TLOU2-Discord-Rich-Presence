@@ -12,7 +12,8 @@ Playing as Ellie - Moderate - 23 collectibles
 [size=5][b]Features[/b][/size]
 [list]
 [*]Chapter and subchapter pulled from your actual save (Seattle Day 1 - The Birthday Gift, Jackson - Prologue, ...)
-[*]Character detection (Ellie / Abby / Joel) with game art for the large image and a character portrait for the small image
+[*]Character detection (Ellie / Abby / Joel) with a character portrait for the small image
+[*]Mission-specific game art for the large image - all 46 story missions, with the mission name as the hover text
 [*]Difficulty and run modifiers (NG+, Full Loadout, Permadeath, ...)
 [*]Collectibles count
 [*]Playtime that keeps ticking in Discord between saves
@@ -58,7 +59,7 @@ There is none - and nothing to break. The display is baked into the helper when 
 
 [b]Why does the status follow my autosave?[/b] The game rewrites the current autosave at checkpoints and chapter starts. When you load another save from the menu, the mod notices that save was just read and switches immediately.
 
-[b]Text shows but no images?[/b] Art assets live on the Discord application, not on your PC; if they are unavailable the mod falls back to text only instead of breaking.
+[b]Mission art not showing?[/b] Artwork lives on the Discord application, not in this download. Until a mission's art asset is uploaded there, the mod shows the standard box art for that mission; the status text and character portraits keep working.
 
 [b]Nothing appears?[/b] Check that Discord is running and that launcher.log exists. If it does not, make sure avrt.dll and TLOU2DiscordRPC.asi are both directly in the game folder next to tlou-ii.exe.
 
@@ -68,6 +69,13 @@ There is none - and nothing to break. The display is baked into the helper when 
 Delete TLOU2DiscordRPC.asi and the TLOU2DiscordRPC folder from the game folder. Nothing else is changed, no registry keys, no services.
 
 [size=5][b]Changelog[/b][/size]
+[b]1.1.0[/b]
+[list]
+[*]Mission-specific game art for the large image - all 46 story missions, with the mission name as the hover text
+[*]Upload checklist for all 50 Discord art assets (base, characters and missions)
+[*]Falls back to the base art, then text only, if a mission image is not uploaded yet
+[/list]
+
 [b]1.0.0[/b]
 [list]
 [*]First release: chapter, character, difficulty, collectibles, playtime

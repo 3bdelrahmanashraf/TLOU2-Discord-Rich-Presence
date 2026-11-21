@@ -14,6 +14,14 @@ It reads the game's own save metadata. Nothing is written to your saves, no
 memory is touched, and it works in single player only (it is a status, not a
 gameplay mod).
 
+IMAGES
+------
+The large image follows the mission you are playing (Hillcrest, The Stadium,
+The Resort, ...), and the small image follows the character (Ellie, Abby,
+Joel). Artwork lives on the Discord application, not in this download, so the
+mission art shows only once those art assets have been uploaded there. Until
+then the box art is used; the status text works either way.
+
 
 REQUIREMENTS
 ------------

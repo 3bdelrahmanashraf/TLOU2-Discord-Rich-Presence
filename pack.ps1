@@ -12,7 +12,7 @@
 # package, so users get no settings file to read, edit or re-point at another
 # Discord application. Edit config.json locally, then rebuild.
 param(
-    [string]$Version = "1.0.0",
+    [string]$Version = "1.1.0",
     [string]$Gcc = "x86_64-w64-mingw32-gcc"
 )
 

@@ -33,6 +33,17 @@ each file does.
 only starts a Python process and then exits its own thread. Neither hooks the
 game.
 
+### Mission artwork
+
+The large image follows the mission in the save: `MISSION_ASSETS` in
+`tlou2_rpc.py` maps all 46 story missions to Discord asset keys (for example
+`Seattle Day 2 - Hillcrest` -> `hillcrest`, `Santa Barbara - The Resort` ->
+`the_resort`). `DISCORD-ASSETS.txt` is the upload checklist. "The Farm" uses a
+single shared key, `the_farm`, in both campaigns. The hover text is
+the mission name by default (`large_text_template = "{subchapter}"`). An
+unknown or not-yet-uploaded key falls back to `tlou2`; the presence never
+loses its text because of missing art.
+
 ## What is in the release archive
 
 ```
@@ -68,7 +79,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\pack.ps1 `
   -Gcc "C:\path\to\x86_64-w64-mingw32-gcc.exe"
 ```
 
-Output: `dist\TLOU2-Discord-Rich-Presence-1.0.0.zip`.
+Output: `dist\TLOU2-Discord-Rich-Presence-1.1.0.zip`.
 
 `client_id` is the Discord application ID that owns the presence name and art
 assets. The published build points at the author's application; the repository
@@ -145,6 +156,7 @@ the embedded settings blob.
 | `dll/avrt_proxy.c`, `dll/avrt_stubs.S`, `dll/avrt_proxy.def` | The `avrt.dll` proxy: forwards 20 Windows AVRT exports and loads the plugin. |
 | `pack.ps1` | Build script described above. |
 | `config.json.example` | Settings template. Copy to `config.json`. |
+| `DISCORD-ASSETS.txt` | Checklist of every Discord art asset key: base, characters and 46 missions. |
 | `mod/README.txt` | README shipped inside the archive. |
 
 ## Notes

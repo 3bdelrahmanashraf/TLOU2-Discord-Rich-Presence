@@ -1,0 +1,117 @@
+DISCORD ART ASSETS - UPLOAD CHECKLIST
+=====================================
+
+Discord application: 1402372564365475861
+   https://discord.com/developers/applications/1402372564365475861
+   -> Rich Presence -> Art Assets -> Upload Art
+
+Upload one 512x512 PNG for every key below. The key is the exact name Discord
+must store (lowercase, underscores). The helper picks the key automatically
+from the save's mission name; if a key is missing, it falls back to "tlou2".
+
+There are 50 keys: 1 base, 3 character, 46 missions. "The Farm" is a single
+shared key used in both campaigns.
+
+
+BASE ART
+--------
+  tlou2                          The Last of Us Part II box art - main fallback
+
+
+CHARACTER ART (small image)
+---------------------------
+  ellie                          Ellie
+  abby                           Abby
+  joel                           Joel
+
+
+JACKSON / PROLOGUE - ELLIE
+--------------------------
+  prologue                       Prologue
+  waking_up                      Waking Up
+  the_overlook                   The Overlook
+  patrol                         Patrol
+  the_horde                      The Horde
+  the_chalet                     The Chalet
+  packing_up                     Packing Up
+
+SEATTLE DAY 1 - ELLIE
+---------------------
+  the_gate                       The Gate
+  downtown                       Downtown
+  eastbrook_elementary           Eastbrook Elementary
+  capitol_hill                   Capitol Hill
+  channel_13                     Channel 13
+  the_tunnels                    The Tunnels
+  the_theatre                    The Theatre
+  the_birthday_gift              The Birthday Gift
+
+SEATTLE DAY 2 - ELLIE
+---------------------
+  hillcrest                      Hillcrest
+  finding_strings                Finding Strings
+  the_seraphites                 The Seraphites
+  st_marys_hospital              St Mary's Hospital
+
+SEATTLE DAY 3 - ELLIE
+---------------------
+  road_to_the_aquarium           Road to the Aquarium
+  the_flooded_city               The Flooded City
+  infiltration                   Infiltration
+
+THE PARK
+--------
+  tracking_lesson                Tracking Lesson
+
+SEATTLE DAY 1 - ABBY
+--------------------
+  the_stadium                    The Stadium
+  on_foot                        On Foot
+  the_forward_base               The Forward Base
+  the_aquarium                   The Aquarium
+  hostile_territory              Hostile Territory
+  winter_visit                   Winter Visit
+  the_forest                     The Forest
+  the_coast                      The Coast
+  return_to_the_coast            Return to the Coast
+
+SEATTLE DAY 2 - ABBY
+--------------------
+  the_shortcut                   The Shortcut
+  the_descent                    The Descent
+  ground_zero                    Ground Zero
+  return_to_the_aquarium         Return to the Aquarium
+
+SEATTLE DAY 3 - ABBY
+--------------------
+  the_marina                     The Marina
+  the_island                     The Island
+  the_escape                     The Escape
+  the_confrontation              The Confrontation
+
+THE FARM
+--------
+  the_farm                       The Farm
+
+SANTA BARBARA
+-------------
+  2425_constance                 2425 Constance
+  pushing_inland                 Pushing Inland
+  the_resort                     The Resort
+  the_beach                      The Beach
+
+EPILOGUE
+--------
+  epilogue                       Epilogue
+
+
+NOTES
+-----
+- Keys are case-sensitive only in the sense that Discord stores exactly what
+  you type. Use the lowercase spelling shown here.
+- "The Farm" appears in both campaigns but uses the single `the_farm` key.
+- "St Mary's Hospital" is stored as st_marys_hospital (no apostrophe).
+- The hover text on the large image is the mission name automatically
+  (config: large_text_template = "{subchapter}").
+- The helper retries with "tlou2" if a mission key has not been uploaded yet,
+  so presence keeps working while you add art gradually.
