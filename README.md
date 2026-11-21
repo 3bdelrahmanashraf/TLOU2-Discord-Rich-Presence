@@ -4,7 +4,7 @@
 
 Shows what you're playing in The Last of Us Part II Remastered as a Discord status:
 
-![Discord Rich Presence example](promo/discord.png)
+![Discord Rich Presence example](promo/discord-large.png)
 
 **[Download on Nexus Mods](https://www.nexusmods.com/thelastofuspart2/mods/965?tab=description)**
 
