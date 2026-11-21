@@ -2,12 +2,7 @@
 
 Shows your chapter, who you are playing as, difficulty, collectibles and playtime as a Discord status while you play The Last of Us Part II Remastered.
 
-[quote]
-[b]The Last of Us Part II[/b]
-Seattle Day 2 - Hillcrest
-Playing as Ellie - Moderate - 23 collectibles
-2:14:07
-[/quote]
+[img]https://raw.githubusercontent.com/3bdelrahmanashraf/tlou2-discord-rich-presence/main/promo/discord.png[/img]
 
 [size=5][b]Features[/b][/size]
 [list]
