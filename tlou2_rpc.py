@@ -163,7 +163,8 @@ MISSION_ASSETS = {
 }
 
 PLAYTIME_RE = re.compile(
-    r"(?:(\d+)\s*hr\s*)?(?:(\d+)\s*min\s*)?(\d+)\s*sec", re.IGNORECASE
+    r"(?:less\s+than\s+)?(?:(\d+)\s*hr\s*)?(?:(\d+)\s*min\s*)?(\d+)\s*sec",
+    re.IGNORECASE,
 )
 
 # Slot titles the game writes while a save is being created/rotated. They carry
@@ -339,6 +340,10 @@ def parse_playtime(detail):
         return None, ""
     hours, minutes, seconds = match.groups()
     total = int(hours or 0) * 3600 + int(minutes or 0) * 60 + int(seconds or 0)
+    # A fresh save writes "less than 1 sec". Consuming the words in the regex
+    # stops them being read as a modifier; zero also avoids a pointless timer.
+    if re.match(r"less\s+than", match.group(0), re.IGNORECASE):
+        total = 0
     return total, match
 
 

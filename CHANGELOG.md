@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the repository README, source README, shipped README and Nexus page
   to describe mission art and the new upload checklist.
 
+### Fixed
+- A fresh save whose playtime reads "less than 1 sec" no longer appends that
+  phrase to the difficulty (e.g. "Moderate less than"). It is now read as zero
+  playtime with no modifier and no meaningless elapsed timer.
+
 ### Notes
 - This release still requires the artwork to be uploaded to the Discord
   application (`1402372564365475861`) before mission art appears. The helper
