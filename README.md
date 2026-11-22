@@ -21,35 +21,39 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 ## Project status
 
-The bars below are an indicative snapshot of what is built, verified and
-documented - not a release schedule. The downloadable build is **v1.1.0** and
-contains story support only.
+![Story and No Return progress](promo/progress.svg)
 
-| Mode | Status | Overall |
-|------|--------|---------|
-| Story | Shipped in v1.1.0 | `████████████████████` 100% |
-| No Return | Research / design in progress, not shipped | `█████░░░░░░░░░░░░░░░` ~25% |
+The chart follows the style of the [AnyPS5 progress page](https://boykopovar.github.io/AnyPS5/progress.html):
+a grey track with a green fill for completed work and an amber fill for work
+still in progress. It is a snapshot of what is built and verified - not a
+release schedule. The downloadable build is **v1.1.0** and contains story
+support only.
+
+| Mode | Status | Done |
+|------|--------|------|
+| Story | Shipped in v1.1.0 | 100% |
+| No Return | Research / design in progress, not shipped | ~25% |
 
 ### Story - detailed progress (v1.1.0)
 
-| Area | Progress | Notes |
-|------|----------|-------|
-| `params.json` save parsing | `████████████████████` 100% | Chapter, subchapter, difficulty, modifiers, collectibles, playtime. |
-| Load-menu detection (`USR-DATA` last access) | `████████████████████` 100% | Status updates within ~3 s of loading a slot. |
-| Character and "Playing as ..." | `████████████████████` 100% | Ellie / Abby / Joel, with chapter overrides. |
-| Mission-specific large art | `████████████████████` 100% | 46 keys; unknown keys fall back to `tlou2`. |
-| Docs, checklist and release | `████████████████████` 100% | README, changelog, `DISCORD-ASSETS.txt`, Nexus page. |
+| Area | Done | Notes |
+|------|------|-------|
+| `params.json` save parsing | 100% | Chapter, subchapter, difficulty, modifiers, collectibles, playtime. |
+| Load-menu detection (`USR-DATA` last access) | 100% | Status updates within ~3 s of loading a slot. |
+| Character and "Playing as ..." | 100% | Ellie / Abby / Joel, with chapter overrides. |
+| Mission-specific large art | 100% | 46 keys; unknown keys fall back to `tlou2`. |
+| Docs, checklist and release | 100% | README, changelog, `DISCORD-ASSETS.txt`, Nexus page. |
 
 ### No Return - detailed progress (not shipped)
 
-| Area | Progress | Notes |
-|------|----------|-------|
-| Save fields (difficulty, playtime, collectibles, mode flag) | `████████████████████` 100% | Decoded from `params.json`; not yet shown in a status. |
-| Mode label / gamble difficulty / timer in the status line | `██████░░░░░░░░░░░░░░` 30% | Layout agreed; wiring waits on the spec. |
-| Operator auto-detection | `████░░░░░░░░░░░░░░░░` 20% | Model IDs and FNV-1a StringId scheme confirmed; live scan pending. |
-| Encounter / location auto-detection | `███░░░░░░░░░░░░░░░░░` 15% | Areas and bosses catalogued; no live address confirmed yet. |
-| Large (location) + small (operator) art | `██░░░░░░░░░░░░░░░░░░` 10% | Keys and fallbacks planned; no assets uploaded. |
-| Spec, docs and release | `██░░░░░░░░░░░░░░░░░░` 10% | Held until the design is approved. |
+| Area | Done | Notes |
+|------|------|-------|
+| Save fields (difficulty, playtime, collectibles, mode flag) | 100% | Decoded from `params.json`; not yet shown in a status. |
+| Mode label / gamble difficulty / timer in the status line | 30% | Layout agreed; wiring waits on the spec. |
+| Operator auto-detection | 20% | Model IDs and FNV-1a StringId scheme confirmed; live scan pending. |
+| Encounter / location auto-detection | 15% | Areas and bosses catalogued; no live address confirmed yet. |
+| Large (location) + small (operator) art | 10% | Keys and fallbacks planned; no assets uploaded. |
+| Spec, docs and release | 10% | Held until the design is approved. |
 
 See [No Return (in development)](#no-return-in-development) for the full
 added / missing / needed breakdown.
@@ -299,6 +303,8 @@ no manual operator or encounter picker, and no changes to save files.
 | `promo\TLOU2-Discord-RPC-promo-1280x720.png` | Smaller copy for embeds and thumbnails. |
 | `promo\nexus-header.html` | Source of the Nexus header banner (1300×372). |
 | `promo\TLOU2-Discord-RPC-nexus-header-1300x372.png` | Nexus mod-page header image. |
+| `promo\progress.svg` | The progress chart shown in "Project status". |
+| `promo\make_progress.py` | Regenerates `promo\progress.svg` from the percentages in the status tables. |
 
 ## How it works
 
