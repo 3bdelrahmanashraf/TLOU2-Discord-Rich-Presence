@@ -218,7 +218,68 @@ else defaults to Ellie. If a chapter ever guesses wrong, add it to
 
 No Return support is being designed, not shipped. Nothing in this section is
 part of v1.1.0. The goal is the same automatic, hands-off status as story mode -
-no manual operator or encounter picker, and no changes to save files.
+no manual operator or encounter picker, no config file, and no save edits. The
+live values come from a guarded, read-only process-memory scan; the game is
+already elevated, so the helper inherits that and there is no UAC prompt.
+
+### Planned status layout
+
+Discord gives us two text lines plus the two image hover texts. The character
+and location are always shown; score and kills appear once a run is in progress.
+
+| Field | Template | Example |
+|-------|----------|---------|
+| Line 1 (`details`) | `Playing as "{character}"` | `Playing as "Ellie"` |
+| Line 2 (`state`) | `{location} · {mode}` | `jackson · hunted` |
+| Line 2 with score | `{location} · {mode} · {score}` | `jackson · hunted · 1,240 pts` |
+| Large-image hover | `{kills}` | `7 kills` / `kills 2/6` |
+| Small-image hover | `{character}` | `Ellie` |
+
+At the planning board (no encounter running) line 2 falls back to
+`No Return · planning board` and the score/kills fields are dropped entirely.
+Mode and location use lowercase in the status (`jackson · assault`). Score is
+only shown once the game exposes a live value - it is never guessed or carried
+over from the previous encounter.
+
+### Kills and progress by mode
+
+The four encounter types need different progress text because their objectives
+are different. This follows the
+[No Return game-modes reference](https://thelastofus.fandom.com/wiki/No_Return#Game_modes):
+
+| Mode | Kills line | Update cadence | What the game does |
+|------|-----------|----------------|--------------------|
+| Hunted | `7 kills` | every few seconds, or on each kill | Continuous reinforcements until the timer ends, with a cap on how many enemies are alive at once. Supply drops spawn after kill thresholds. Kills award 10 score points **only in Hunted**, so a live counter is meaningful here. |
+| Assault | `kills 2/6` | on each kill | Three waves of a random human faction (Search or Combat start), with a supply cache after each wave. The required kill count rises the deeper the run goes, so the target is read from memory, not hardcoded. |
+| Capture | `kills 4` | on each kill | Unlock the guarded safe before the timer to get the `Safe Captured` +50 bonus. Reaching the safe unseen works too. If the timer expires the safe locks and the player must kill every enemy instead, so the counter has no fixed target. |
+| Holdout | `kills 11` | on each kill | Protect an AI ally against infected; the encounter ends only when every enemy is dead and fails if the ally dies. More loot and trap mines spawn, and a bloater can appear in the second half. |
+| Boss | no kills line | score only | Six bosses: Arcade Bloater, Theater Infestation, Resort Farm Rattler Captain, Garage Bloater, Stripmall Seraphite Elite and Hospital Basement Rat King. |
+
+"Progressive difficulty" means the numbers grow with run depth: more required
+kills in Assault, Capture and Holdout, and a longer survival timer in Hunted.
+That is another reason every displayed number must come from the live value.
+
+### Art
+
+Same visual language as story mode:
+
+- **Large image** = the encounter location, one key per area (e.g. `jackson`,
+  `gondola_station`, `subway_station`, `overpass`) plus a key per boss. The
+  encounter areas and six bosses are catalogued.
+- **Small image** = the operator portrait (`ellie`, `abby`, `joel` and the other
+  operators), reusing the story small-icon style.
+- Missing keys fall back to `tlou2` (large) and the character portrait (small),
+  exactly as story art does. A missing asset never breaks the status text.
+
+### Detection plan
+
+- Operators, locations, mode and encounter type are stored as 64-bit FNV-1a
+  StringIds, not plain text. An elevated, read-only scan isolates the live slot
+  by switching operator/state and diffing the results.
+- Score and kill counters are plain integers; at least two states per mode are
+  needed before a slot can be trusted.
+- Every read is guarded and validated. On a miss the status keeps the last
+  known good board state rather than blanking or showing a wrong number.
 
 ### What's added / confirmed
 
@@ -229,8 +290,9 @@ no manual operator or encounter picker, and no changes to save files.
 - Confirmed the game's in-game character model IDs (`ellie`, `abby`, `joel` and
   the other operators) and No Return level names, and that the game stores
   these names as 64-bit FNV-1a StringIds rather than plain text.
-- Catalogued the reference data: 12 operators, 24 encounter areas, 6 boss
-  encounters and 4 encounter types.
+- Catalogued the reference data: 12 operators, the encounter areas, 6 boss
+  encounters and 4 encounter types, plus the per-mode objectives and scoring
+  rules that drive the text above.
 - Confirmed that no operator or encounter value is written to disk, so the live
   values must come from process memory - and that the helper launched by the
   game already inherits its elevation, so users will not see a UAC prompt.
@@ -239,10 +301,12 @@ no manual operator or encounter picker, and no changes to save files.
 
 - Automatic operator detection: only the board's current selection is known so
   far; the helper does not read it.
-- Automatic encounter / location detection, including boss encounters.
-- The No Return status lines themselves - mode label, operator, gamble
-  difficulty, run timer and encounter. The decoded fields are not rendered yet.
-- No Return artwork: a large image per encounter/location and a small operator
+- Automatic encounter / location and mode detection, including boss encounters.
+- The planned status lines themselves: character, `location · mode`, live score
+  and the per-mode kill text. None of these are rendered yet.
+- Live score and kill counters: no memory address has been confirmed for either,
+  so Hunted's `7 kills` and Assault's `kills 2/6` are design, not working output.
+- No Return artwork: a large image per location/boss and a small operator
   portrait, with the same graceful fallback as story art.
 - A written spec, tests, changelog entry and release. The version stays at
   1.1.0 until the design is approved.
@@ -252,11 +316,16 @@ no manual operator or encounter picker, and no changes to save files.
 1. Run an elevated, read-only memory scan at the No Return board with one
    operator selected, switch operator, and diff the results to isolate the
    live slot.
-2. Verify a stable anchor and the StringId resolver for this game build, and
-   define fallbacks so a missed read never blanks the status.
-3. Approve the status templates and asset-key naming, then upload the images.
-4. Implement behind a guarded read path, document it, and only then bump the
-   version and package a release.
+2. Repeat the diff inside each mode (Hunted, Assault, Capture, Holdout and a
+   boss) to locate the score, kill counter and target values before trusting
+   any number in the status.
+3. Verify a stable anchor and the StringId resolver for this game build, and
+   keep the guarded fallbacks so a missed read never blanks the status.
+4. Approve the status templates and asset-key naming above, then upload the
+   images.
+5. Implement behind the guarded read path, document it, and only then bump the
+   version and package a release. v1.2.0 is only a proposal - no version bump
+   happens until the design is approved.
 
 ---
 
