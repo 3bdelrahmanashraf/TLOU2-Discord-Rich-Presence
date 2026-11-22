@@ -225,20 +225,23 @@ already elevated, so the helper inherits that and there is no UAC prompt.
 ### Planned status layout
 
 Discord gives us two text lines plus the two image hover texts. The character
-and location are always shown; score and kills appear once a run is in progress.
+is always shown; location and mode are always in line 2, with kills and score
+appended as soon as the game exposes live values. Hovering the large image
+shows the **location**, not the kills.
 
 | Field | Template | Example |
 |-------|----------|---------|
 | Line 1 (`details`) | `Playing as "{character}"` | `Playing as "Ellie"` |
-| Line 2 (`state`) | `{location} · {mode}` | `jackson · hunted` |
-| Line 2 with score | `{location} · {mode} · {score}` | `jackson · hunted · 1,240 pts` |
-| Large-image hover | `{kills}` | `7 kills` / `kills 2/6` |
+| Line 2 (`state`) | `{location} · {mode} · {kills} · {score}` | `jackson · hunted · 7 kills · 1,240 pts` |
+| Large-image hover | `{location}` | `Jackson` |
 | Small-image hover | `{character}` | `Ellie` |
 
-At the planning board (no encounter running) line 2 falls back to
-`No Return · planning board` and the score/kills fields are dropped entirely.
-Mode and location use lowercase in the status (`jackson · assault`). Score is
-only shown once the game exposes a live value - it is never guessed or carried
+Line 2 is built from optional parts, so `{kills}` and `{score}` disappear on
+their own when they are not known: `jackson · hunted · 7 kills` is valid until
+a score is exposed, and a boss encounter drops the kills part entirely
+(`arcade · boss · 1,240 pts`). At the planning board (no encounter running)
+line 2 falls back to `No Return · planning board`. Mode and location use
+lowercase in the status (`jackson · assault`). Nothing is guessed or carried
 over from the previous encounter.
 
 ### Kills and progress by mode
@@ -247,13 +250,13 @@ The four encounter types need different progress text because their objectives
 are different. This follows the
 [No Return game-modes reference](https://thelastofus.fandom.com/wiki/No_Return#Game_modes):
 
-| Mode | Kills line | Update cadence | What the game does |
-|------|-----------|----------------|--------------------|
+| Mode | Kills text (in line 2) | Update cadence | What the game does |
+|------|------------------------|----------------|--------------------|
 | Hunted | `7 kills` | every few seconds, or on each kill | Continuous reinforcements until the timer ends, with a cap on how many enemies are alive at once. Supply drops spawn after kill thresholds. Kills award 10 score points **only in Hunted**, so a live counter is meaningful here. |
 | Assault | `kills 2/6` | on each kill | Three waves of a random human faction (Search or Combat start), with a supply cache after each wave. The required kill count rises the deeper the run goes, so the target is read from memory, not hardcoded. |
 | Capture | `kills 4` | on each kill | Unlock the guarded safe before the timer to get the `Safe Captured` +50 bonus. Reaching the safe unseen works too. If the timer expires the safe locks and the player must kill every enemy instead, so the counter has no fixed target. |
 | Holdout | `kills 11` | on each kill | Protect an AI ally against infected; the encounter ends only when every enemy is dead and fails if the ally dies. More loot and trap mines spawn, and a bloater can appear in the second half. |
-| Boss | no kills line | score only | Six bosses: Arcade Bloater, Theater Infestation, Resort Farm Rattler Captain, Garage Bloater, Stripmall Seraphite Elite and Hospital Basement Rat King. |
+| Boss | no kills part | score only | Six bosses: Arcade Bloater, Theater Infestation, Resort Farm Rattler Captain, Garage Bloater, Stripmall Seraphite Elite and Hospital Basement Rat King. |
 
 "Progressive difficulty" means the numbers grow with run depth: more required
 kills in Assault, Capture and Holdout, and a longer survival timer in Hunted.
@@ -265,7 +268,8 @@ Same visual language as story mode:
 
 - **Large image** = the encounter location, one key per area (e.g. `jackson`,
   `gondola_station`, `subway_station`, `overpass`) plus a key per boss. The
-  encounter areas and six bosses are catalogued.
+  encounter areas and six bosses are catalogued. Its hover text is the
+  location's full name, so `jackson` shows `Jackson` on hover.
 - **Small image** = the operator portrait (`ellie`, `abby`, `joel` and the other
   operators), reusing the story small-icon style.
 - Missing keys fall back to `tlou2` (large) and the character portrait (small),
@@ -302,8 +306,9 @@ Same visual language as story mode:
 - Automatic operator detection: only the board's current selection is known so
   far; the helper does not read it.
 - Automatic encounter / location and mode detection, including boss encounters.
-- The planned status lines themselves: character, `location · mode`, live score
-  and the per-mode kill text. None of these are rendered yet.
+- The planned status lines themselves: `Playing as "{character}"`, the
+  `{location} · {mode} · {kills} · {score}` line, and the location hover on the
+  large image. None of these are rendered yet.
 - Live score and kill counters: no memory address has been confirmed for either,
   so Hunted's `7 kills` and Assault's `kills 2/6` are design, not working output.
 - No Return artwork: a large image per location/boss and a small operator
