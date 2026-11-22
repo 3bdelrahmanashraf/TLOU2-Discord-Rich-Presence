@@ -23,9 +23,6 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 ![Story and No Return progress](promo/progress-dark.svg)
 
-The chart uses GitHub's dark-theme colours: a grey track, a green fill for
-completed work and an amber fill for work still in progress. Its layout was
-inspired by the [AnyPS5 progress page](https://boykopovar.github.io/AnyPS5/progress.html).
 It is a snapshot of what is built and verified - not a release schedule. The
 downloadable build is **v1.1.0** and contains story support only.
 
