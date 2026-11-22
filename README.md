@@ -19,6 +19,43 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 ---
 
+## Project status
+
+The bars below are an indicative snapshot of what is built, verified and
+documented - not a release schedule. The downloadable build is **v1.1.0** and
+contains story support only.
+
+| Mode | Status | Overall |
+|------|--------|---------|
+| Story | Shipped in v1.1.0 | `████████████████████` 100% |
+| No Return | Research / design in progress, not shipped | `█████░░░░░░░░░░░░░░░` ~25% |
+
+### Story - detailed progress (v1.1.0)
+
+| Area | Progress | Notes |
+|------|----------|-------|
+| `params.json` save parsing | `████████████████████` 100% | Chapter, subchapter, difficulty, modifiers, collectibles, playtime. |
+| Load-menu detection (`USR-DATA` last access) | `████████████████████` 100% | Status updates within ~3 s of loading a slot. |
+| Character and "Playing as ..." | `████████████████████` 100% | Ellie / Abby / Joel, with chapter overrides. |
+| Mission-specific large art | `████████████████████` 100% | 46 keys; unknown keys fall back to `tlou2`. |
+| Docs, checklist and release | `████████████████████` 100% | README, changelog, `DISCORD-ASSETS.txt`, Nexus page. |
+
+### No Return - detailed progress (not shipped)
+
+| Area | Progress | Notes |
+|------|----------|-------|
+| Save fields (difficulty, playtime, collectibles, mode flag) | `████████████████████` 100% | Decoded from `params.json`; not yet shown in a status. |
+| Mode label / gamble difficulty / timer in the status line | `██████░░░░░░░░░░░░░░` 30% | Layout agreed; wiring waits on the spec. |
+| Operator auto-detection | `████░░░░░░░░░░░░░░░░` 20% | Model IDs and FNV-1a StringId scheme confirmed; live scan pending. |
+| Encounter / location auto-detection | `███░░░░░░░░░░░░░░░░░` 15% | Areas and bosses catalogued; no live address confirmed yet. |
+| Large (location) + small (operator) art | `██░░░░░░░░░░░░░░░░░░` 10% | Keys and fallbacks planned; no assets uploaded. |
+| Spec, docs and release | `██░░░░░░░░░░░░░░░░░░` 10% | Held until the design is approved. |
+
+See [No Return (in development)](#no-return-in-development) for the full
+added / missing / needed breakdown.
+
+---
+
 ## Quick start
 
 1. Make sure Discord is running.
@@ -173,6 +210,52 @@ Subchapters unique to Abby (`The Stadium`, `The Aquarium`, `The Island`,
 `Ground Zero`, ...) map to Abby, `Jackson - Prologue` maps to Joel, everything
 else defaults to Ellie. If a chapter ever guesses wrong, add it to
 `character_overrides`, or lock the whole app with `"character": "Abby"`.
+
+---
+
+## No Return (in development)
+
+No Return support is being designed, not shipped. Nothing in this section is
+part of v1.1.0. The goal is the same automatic, hands-off status as story mode -
+no manual operator or encounter picker, and no changes to save files.
+
+### What's added / confirmed
+
+- Identified the No Return save slot and its mode flag (`00 80` versus `00 00`
+  in story saves), so the two modes can be told apart.
+- Decoded difficulty, playtime and collectibles in `params.json` - fields the
+  story status already knows how to render.
+- Confirmed the game's in-game character model IDs (`ellie`, `abby`, `joel` and
+  the other operators) and No Return level names, and that the game stores
+  these names as 64-bit FNV-1a StringIds rather than plain text.
+- Catalogued the reference data: 12 operators, 24 encounter areas, 6 boss
+  encounters and 4 encounter types.
+- Confirmed that no operator or encounter value is written to disk, so the live
+  values must come from process memory - and that the helper launched by the
+  game already inherits its elevation, so users will not see a UAC prompt.
+
+### What's missing
+
+- Automatic operator detection: only the board's current selection is known so
+  far; the helper does not read it.
+- Automatic encounter / location detection, including boss encounters.
+- The No Return status lines themselves - mode label, operator, gamble
+  difficulty, run timer and encounter. The decoded fields are not rendered yet.
+- No Return artwork: a large image per encounter/location and a small operator
+  portrait, with the same graceful fallback as story art.
+- A written spec, tests, changelog entry and release. The version stays at
+  1.1.0 until the design is approved.
+
+### What's needed next
+
+1. Run an elevated, read-only memory scan at the No Return board with one
+   operator selected, switch operator, and diff the results to isolate the
+   live slot.
+2. Verify a stable anchor and the StringId resolver for this game build, and
+   define fallbacks so a missed read never blanks the status.
+3. Approve the status templates and asset-key naming, then upload the images.
+4. Implement behind a guarded read path, document it, and only then bump the
+   version and package a release.
 
 ---
 

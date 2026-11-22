@@ -29,6 +29,10 @@ each file does.
   not** read process memory. **Does not** write to or alter saves. There is no
   network traffic other than the local Discord pipe.
 
+  This describes the shipped v1.1.0 (story mode). No Return support is still in
+  design; if it ships, it will read live game memory and this section will be
+  updated in that release. See the progress sections in `README.md`.
+
 `avrt.dll` only forwards Windows AVRT calls and loads the `.asi`; the `.asi`
 only starts a Python process and then exits its own thread. Neither hooks the
 game.
