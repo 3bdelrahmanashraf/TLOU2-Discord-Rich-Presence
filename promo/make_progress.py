@@ -138,7 +138,7 @@ def main() -> None:
         + "\n".join(body)
         + "\n</svg>\n"
     )
-    out = Path(__file__).with_name("progress.svg")
+    out = Path(__file__).with_name("progress-dark.svg")
     out.write_text(svg, encoding="utf-8")
     print(f"wrote {out} ({WIDTH}x{height})")
 

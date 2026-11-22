@@ -21,7 +21,7 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 ## Project status
 
-![Story and No Return progress](promo/progress.svg)
+![Story and No Return progress](promo/progress-dark.svg)
 
 The chart uses GitHub's dark-theme colours: a grey track, a green fill for
 completed work and an amber fill for work still in progress. Its layout was
@@ -303,8 +303,8 @@ no manual operator or encounter picker, and no changes to save files.
 | `promo\TLOU2-Discord-RPC-promo-1280x720.png` | Smaller copy for embeds and thumbnails. |
 | `promo\nexus-header.html` | Source of the Nexus header banner (1300×372). |
 | `promo\TLOU2-Discord-RPC-nexus-header-1300x372.png` | Nexus mod-page header image. |
-| `promo\progress.svg` | The progress chart shown in "Project status". |
-| `promo\make_progress.py` | Regenerates `promo\progress.svg` from the percentages in the status tables. |
+| `promo\progress-dark.svg` | The progress chart shown in "Project status". |
+| `promo\make_progress.py` | Regenerates `promo\progress-dark.svg` from the percentages in the status tables. |
 
 ## How it works
 
