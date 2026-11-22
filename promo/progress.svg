@@ -1,60 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="920" height="512" viewBox="0 0 920 512" role="img" aria-label="Progress bars for story and No Return support">
-<rect width="920" height="512" fill="#ffffff"/>
-<text x="20" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1f2328">Project progress</text>
-<text x="20" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#57606a">Snapshot of verified work, not a release schedule. Green = done, amber = in progress.</text>
-<text x="20" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1f2328">Overall</text>
-<text x="20" y="97" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Story - shipped in v1.1.0</text>
-<rect x="330" y="86" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="86" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="97" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">No Return - in development, not shipped</text>
-<rect x="330" y="114" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="114" width="115.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">25%</text>
-<text x="20" y="154" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1f2328">Story - detailed (v1.1.0)</text>
-<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Save parsing (params.json)</text>
-<rect x="330" y="164" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="164" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="175" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="203" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Load-menu detection (USR-DATA last access)</text>
-<rect x="330" y="192" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="192" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="203" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="231" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Character + &quot;Playing as ...&quot;</text>
-<rect x="330" y="220" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="220" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="231" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="259" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Mission art (46 asset keys)</text>
-<rect x="330" y="248" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="248" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="259" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Docs, checklist and release</text>
-<rect x="330" y="276" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="276" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="316" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1f2328">No Return - detailed (not shipped)</text>
-<text x="20" y="337" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Save fields decoded (difficulty, time, collectibles)</text>
-<rect x="330" y="326" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="326" width="460.0" height="12" rx="2" fill="#2ea043"/>
-<text x="900" y="337" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">100%</text>
-<text x="20" y="365" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Status lines (mode, gamble, timer)</text>
-<rect x="330" y="354" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="354" width="138.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="365" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">30%</text>
-<text x="20" y="393" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Operator auto-detection</text>
-<rect x="330" y="382" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="382" width="92.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="393" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">20%</text>
-<text x="20" y="421" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Encounter / location auto-detection</text>
-<rect x="330" y="410" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="410" width="69.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="421" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">15%</text>
-<text x="20" y="449" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Large location + small operator art</text>
-<rect x="330" y="438" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="438" width="46.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="449" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">10%</text>
-<text x="20" y="477" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#1f2328">Spec, docs and release</text>
-<rect x="330" y="466" width="460" height="12" rx="2" fill="#6e7681"/>
-<rect x="330" y="466" width="46.0" height="12" rx="2" fill="#d29922"/>
-<text x="900" y="477" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="end" fill="#1f2328">10%</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="562" viewBox="0 0 920 562" role="img" aria-label="Progress bars for story and No Return support">
+<rect width="920" height="562" fill="#0d1117"/>
+<rect x="0.5" y="0.5" width="919" height="561" rx="8" fill="none" stroke="#30363d"/>
+<rect x="16" y="18" width="4" height="18" rx="2" fill="#58a6ff"/>
+<text x="28" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#e6edf3">Project progress</text>
+<text x="28" y="54" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#8b949e">Snapshot of verified work, not a release schedule.</text>
+<rect x="28" y="68" width="9" height="9" rx="2" fill="#2ea043"/>
+<text x="43" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8b949e">done</text>
+<rect x="94" y="68" width="9" height="9" rx="2" fill="#d29922"/>
+<text x="109" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8b949e">in progress</text>
+<text x="28" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#e6edf3">Overall</text>
+<rect x="28" y="107" width="864" height="1" fill="#30363d"/>
+<rect x="16" y="108" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="124" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Story - shipped in v1.1.0</text>
+<rect x="330" y="115" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="115" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="124" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<text x="28" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">No Return - in development, not shipped</text>
+<rect x="330" y="143" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="143" width="110.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="152" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">25%</text>
+<text x="28" y="188" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#e6edf3">Story - detailed (v1.1.0)</text>
+<rect x="28" y="195" width="864" height="1" fill="#30363d"/>
+<rect x="16" y="196" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Save parsing (params.json)</text>
+<rect x="330" y="203" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="203" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="212" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<text x="28" y="240" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Load-menu detection (USR-DATA last access)</text>
+<rect x="330" y="231" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="231" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="240" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<rect x="16" y="252" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="268" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Character + &quot;Playing as ...&quot;</text>
+<rect x="330" y="259" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="259" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="268" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<text x="28" y="296" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Mission art (46 asset keys)</text>
+<rect x="330" y="287" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="287" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="296" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<rect x="16" y="308" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="324" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Docs, checklist and release</text>
+<rect x="330" y="315" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="315" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="324" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<text x="28" y="360" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#e6edf3">No Return - detailed (not shipped)</text>
+<rect x="28" y="367" width="864" height="1" fill="#30363d"/>
+<rect x="16" y="368" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="384" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Save fields decoded (difficulty, time, collectibles)</text>
+<rect x="330" y="375" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="375" width="440.0" height="10" rx="5" fill="#2ea043"/>
+<text x="892" y="384" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">100%</text>
+<text x="28" y="412" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Status lines (mode, gamble, timer)</text>
+<rect x="330" y="403" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="403" width="132.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="412" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">30%</text>
+<rect x="16" y="424" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Operator auto-detection</text>
+<rect x="330" y="431" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="431" width="88.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="440" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">20%</text>
+<text x="28" y="468" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Encounter / location auto-detection</text>
+<rect x="330" y="459" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="459" width="66.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="468" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">15%</text>
+<rect x="16" y="480" width="888" height="26" rx="6" fill="#161b22"/>
+<text x="28" y="496" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Large location + small operator art</text>
+<rect x="330" y="487" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="487" width="44.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="496" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">10%</text>
+<text x="28" y="524" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#e6edf3">Spec, docs and release</text>
+<rect x="330" y="515" width="440" height="10" rx="5" fill="#30363d"/>
+<rect x="330" y="515" width="44.0" height="10" rx="5" fill="#d29922"/>
+<text x="892" y="524" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="600" text-anchor="end" fill="#e6edf3">10%</text>
 </svg>
