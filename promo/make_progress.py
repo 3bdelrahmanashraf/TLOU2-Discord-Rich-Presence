@@ -35,7 +35,7 @@ SECTIONS = [
         "Overall",
         [
             ("Story - shipped in v1.1.0", 100, GREEN),
-            ("No Return - in development, not shipped", 25, AMBER),
+            ("No Return - in development, not shipped", 35, AMBER),
         ],
     ),
     (
@@ -53,8 +53,9 @@ SECTIONS = [
         [
             ("Save fields decoded (difficulty, time, collectibles)", 100, GREEN),
             ("Status lines (mode, gamble, timer)", 30, AMBER),
-            ("Operator auto-detection", 20, AMBER),
-            ("Encounter / location auto-detection", 15, AMBER),
+            ("Operator auto-detection", 45, AMBER),
+            ("Encounter / location auto-detection", 25, AMBER),
+            ("Live score / kill field map", 45, AMBER),
             ("Large location + small operator art", 10, AMBER),
             ("Spec, docs and release", 10, AMBER),
         ],

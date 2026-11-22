@@ -19,6 +19,28 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 ---
 
+## Contents
+
+- [Project status](#project-status)
+- [Quick start](#quick-start)
+- [One-time Discord setup (images)](#one-time-discord-setup-images)
+- [Nexus package (ASI plugin)](#nexus-package-asi-plugin)
+- [Configuration (`config.json`, build time only)](#configuration-configjson-build-time-only)
+- [No Return (in development)](#no-return-in-development)
+  - [Planned status layout](#planned-status-layout)
+  - [Kills and progress by mode](#kills-and-progress-by-mode)
+  - [Art](#art)
+  - [Detection plan](#detection-plan)
+  - [Memory address findings (research only)](#memory-address-findings-research-only)
+  - [What's added / confirmed](#whats-added--confirmed)
+  - [What's missing](#whats-missing)
+  - [What's needed next](#whats-needed-next)
+- [Troubleshooting](#troubleshooting)
+- [Files](#files)
+- [How it works](#how-it-works)
+
+---
+
 ## Project status
 
 ![Story and No Return progress](promo/progress-dark.svg)
@@ -29,7 +51,7 @@ downloadable build is **v1.1.0** and contains story support only.
 | Mode | Status | Done |
 |------|--------|------|
 | Story | Shipped in v1.1.0 | 100% |
-| No Return | Research / design in progress, not shipped | ~25% |
+| No Return | Address research / design in progress, not shipped | ~35% |
 
 ### Story - detailed progress (v1.1.0)
 
@@ -47,8 +69,9 @@ downloadable build is **v1.1.0** and contains story support only.
 |------|------|-------|
 | Save fields (difficulty, playtime, collectibles, mode flag) | 100% | Decoded from `params.json`; not yet shown in a status. |
 | Mode label / gamble difficulty / timer in the status line | 30% | Layout agreed; wiring waits on the spec. |
-| Operator auto-detection | 20% | Model IDs and FNV-1a StringId scheme confirmed; live scan pending. |
-| Encounter / location auto-detection | 15% | Areas and bosses catalogued; no live address confirmed yet. |
+| Operator auto-detection | 45% | Active skin slot (`registry + 0x40`) decoded; skin-prefix map and live validation pending. |
+| Encounter / location auto-detection | 25% | Level emitter and script-native names decoded; no live location slot confirmed yet. |
+| Live score / kill field map | 45% | Static field offsets and the score global are decoded; state snapshots pending. |
 | Large (location) + small (operator) art | 10% | Keys and fallbacks planned; no assets uploaded. |
 | Spec, docs and release | 10% | Held until the design is approved. |
 
@@ -279,11 +302,52 @@ Same visual language as story mode:
 
 - Operators, locations, mode and encounter type are stored as 64-bit FNV-1a
   StringIds, not plain text. An elevated, read-only scan isolates the live slot
-  by switching operator/state and diffing the results.
-- Score and kill counters are plain integers; at least two states per mode are
-  needed before a slot can be trusted.
+  by comparing **fresh runs** - the operator cannot be swapped on the planning
+  board.
+- The script-native registry at RVA `0x415aa30` gives us named getters, but each
+  thunk slot resolves to the same VM trampoline. The next step is raw region
+  snapshots in different states, not more getter disassembly.
+- Score and kill counters are plain integers/floats inside the score array; at
+  least two states per mode are needed before a slot can be trusted.
 - Every read is guarded and validated. On a miss the status keeps the last
   known good board state rather than blanking or showing a wrong number.
+
+### Memory address findings (research only)
+
+These are **findings for the current executable, not offsets used by v1.1.0**.
+Static VAs below assume ImageBase `0x140000000`; subtract the module base to get
+the RVA, then add the live module base at runtime. Nothing here is wired into the
+shipped helper, and a game update can move every address.
+
+| Area | Static VA / RVA | Confirmed detail |
+|------|-----------------|------------------|
+| Script-native registry | `0x14415aa30` / `0x415aa30` | 0x10000-byte `.data` region. Entries use a 0x18-byte stride: `{func_ptr, name_hash, next}`. `+0xC000..+0xD000` contains No Return names such as `rogue-get-player-character`, `rogue-get-overall-mode`, `rogue-get-run-active`, `rogue-get-all-score-data`, and `track-rogue-encounter-score`. |
+| Registry list head / counter | `0x14823f600` / `0x823f600`, `0x14823f608` / `0x823f608` | Global list head and entry counter used by the registration routine at `0x141352100` / `0x1352100`. |
+| Kills telemetry emitter | `0x1403a06f0-0x1403a08bc` / `0x3a06f0-0x3a08bc` | `kills = dword [stats+8]`, `fired = [stats+0x10]`, `hit = [stats+0x1c]`, `headshot = [stats+0x20]`. The stats entry comes from `0x14033c320`, table at `[container+0x14380]`, stride `0x50`. Static only: not tied to a live slot yet. |
+| Score telemetry emitter | `0x14039f4bb-0x14039f635` / `0x39f4bb-0x39f635` | Element stride `0x408` from the registry global: `[global + index*0x408 + 0x6ed8]` is `total_score` (float), `+0x6edc` is `encounter_score` (float), `+0x6ec8` is `encounter_grade` (int). Sub-blocks sit at `+0x1a08`, `+0x3640`, `+0x5278`; nested count `+0x5678`, stride `0x40`. |
+| Level telemetry emitter | `0x14039edd0-0x14039efb2` / `0x39edd0-0x39efb2` | `level_id = qword [qword [source+0x50]]`. Six unknown StringIds are passed to a virtual call; they did not match ~3.5M ASCII/UTF-16 FNV variants, so their names are likely inside the PSARC archives. |
+| Active skin slot | registry global `+0x40` | Fresh Ellie run: FNV-1a(`ellie`). Fresh Abby run: FNV-1a(`abby-holster`). This is the **active skin**, not a fixed operator ID: map by skin-name prefix. `+0x1D8` stayed `ellie` in both dumps, so it is not the active operator slot. |
+
+Useful script-native hashes already recovered from the registry:
+
+| Native | FNV-1a 64-bit | Location |
+|--------|---------------|----------|
+| `rogue-get-player-character` | `1352EF2B4731BAB8` | entry `0x144167788`, region `+0xCB80` |
+| `rogue-get-player-character-look` | `A43B4BC284B58694` | entry `0x144167648`, region `+0xD008` |
+| `rogue-get-overall-mode` | `7D8C15B0E602F4E8` | entry `0x144166d18`, region `+0xC3D8` |
+| `rogue-get-run-active` | `AD5D475DF69EFD65` | entry `0x144166c70`, region `+0xC3F0` |
+| `rogue-get-all-score-data` | `516C8542ED6AD1B4` | entry `0x144166e80`, region `+0xC380` |
+| `rogue-get-most-recent-character` | `FE160BBBBCE6998A` | entry `0x1441670c8`, region `+0xC610` |
+| `rogue-get-run-structure` | `ACDF9E15E3CC7E30` | entry `0x144166d70`, region `+0xD108` |
+| `rogue-player-in-encounter?` | `021D6E4114B8AC1C` | entry `0x1441675f0`, region `+0xC7A8` |
+| `track-rogue-encounter-score` | `E8035E04E1197D3C` | region `+0xC2C8` |
+
+Seven unknown state hashes at state-struct offsets `+0x50..+0x78` and `+0xF8`
+did not match ~11.5M FNV variants built from pak/actor names. All recovered
+getter slots resolve to the same generic script-VM trampoline at RVA `0x2e36270`,
+so the individual getter bodies cannot be read from those pointers. Full raw
+region dumps and state diffs are the remaining route to location, mode, kills
+and target values.
 
 ### What's added / confirmed
 
@@ -300,17 +364,25 @@ Same visual language as story mode:
 - Confirmed that no operator or encounter value is written to disk, so the live
   values must come from process memory - and that the helper launched by the
   game already inherits its elevation, so users will not see a UAC prompt.
+- Decoded the static address map in
+  [Memory address findings](#memory-address-findings-research-only): the script
+  registry, telemetry emitters, score-array layout and named getter hashes.
+- Found the live active **skin** slot at registry `+0x40`; operator can be
+  derived from the skin-name prefix, but no single hash is safe to hardcode.
+- Confirmed that the script-native getter slots all point at one VM trampoline,
+  so raw region snapshots are the practical way to finish the live slots.
 
 ### What's missing
 
-- Automatic operator detection: only the board's current selection is known so
-  far; the helper does not read it.
+- Automatic operator detection: the active skin slot is decoded, but the
+  skin-name prefix map and the implementation are not finished.
 - Automatic encounter / location and mode detection, including boss encounters.
 - The planned status lines themselves: `Playing as "{character}"`, the
   `{location} · {mode} · {kills} · {score}` line, and the location hover on the
   large image. None of these are rendered yet.
-- Live score and kill counters: no memory address has been confirmed for either,
-  so Hunted's `7 kills` and Assault's `kills 2/6` are design, not working output.
+- Live score and kill counters: the static field offsets are known, but no
+  runtime-stable slot or mode-specific target value has been confirmed yet, so
+  Hunted's `7 kills` and Assault's `kills 2/6` are design, not working output.
 - No Return artwork: a large image per location/boss and a small operator
   portrait, with the same graceful fallback as story art.
 - A written spec, tests, changelog entry and release. The version stays at
@@ -318,14 +390,14 @@ Same visual language as story mode:
 
 ### What's needed next
 
-1. Run an elevated, read-only memory scan at the No Return board with one
-   operator selected, switch operator, and diff the results to isolate the
-   live slot.
-2. Repeat the diff inside each mode (Hunted, Assault, Capture, Holdout and a
-   boss) to locate the score, kill counter and target values before trusting
-   any number in the status.
-3. Verify a stable anchor and the StringId resolver for this game build, and
-   keep the guarded fallbacks so a missed read never blanks the status.
+1. Run the elevated raw-region dumper in fresh Ellie and Abby runs - the
+   operator cannot be swapped on the same planning board - and diff `+0x40`
+   plus the unknown state offsets.
+2. Take region snapshots at encounter start, after N kills, and in each mode
+   (Hunted, Assault, Capture, Holdout and a boss) to tie the decoded score/kill
+   fields to stable live slots.
+3. Map active skin hashes to the 12 operators by prefix; keep the guarded
+   fallbacks so a missed read never blanks the status.
 4. Approve the status templates and asset-key naming above, then upload the
    images.
 5. Implement behind the guarded read path, document it, and only then bump the
