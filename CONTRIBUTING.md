@@ -44,4 +44,4 @@ Thanks for your interest in contributing to **TLOU2 Discord Rich Presence**.
 
 ## Security / secrets
 
-If you find a leaked secret or sensitive data, **do not open a public issue with the secret value**. Report it privately to the maintainer through GitHub security/contact channels.
+If you find a leaked secret or sensitive data, **do not open a public issue with the secret value**. Follow [SECURITY.md](SECURITY.md) and report it privately through GitHub's security channels.
