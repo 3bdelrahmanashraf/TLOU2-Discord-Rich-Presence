@@ -32,6 +32,17 @@ MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mo
 
 SECTIONS = [
     (
+        "Overall stages",
+        [
+            ("Story mode (v1.1.0 shipped)", 100, GREEN),
+            ("Universal No Return plan", 40, AMBER),
+            ("Current-build snapshot capture", 20, AMBER),
+            ("Current-build profile & validation", 10, AMBER),
+            ("Memory resolver implementation", 0, AMBER),
+            ("Status, art, docs & release", 5, AMBER),
+        ],
+    ),
+    (
         "Overall",
         [
             ("Story - shipped in v1.1.0", 100, GREEN),

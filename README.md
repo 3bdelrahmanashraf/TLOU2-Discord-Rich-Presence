@@ -22,6 +22,7 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 ## Contents
 
 - [Project status](#project-status)
+  - [Overall stages](#overall-stages)
 - [Quick start](#quick-start)
 - [One-time Discord setup (images)](#one-time-discord-setup-images)
 - [Nexus package (ASI plugin)](#nexus-package-asi-plugin)
@@ -47,6 +48,17 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 
 It is a snapshot of what is built and verified - not a release schedule. The
 downloadable build is **v1.1.0** and contains story support only.
+
+### Overall stages
+
+| Stage | Status | Progress | Tracking |
+|---|---|---:|---|
+| Story mode (v1.1.0) | Shipped | 100% | Released build |
+| Universal No Return plan | Drafted | 40% | [#2](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/2) |
+| Current-build snapshot capture | In progress | 20% | [#3](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/3) |
+| Current-build profile & validation | Not started | 10% | [#4](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/4) |
+| Memory resolver implementation | Not started | 0% | [#5](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/5) |
+| Status, art, docs & release | Not started | 5% | [#6](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/6) |
 
 | Mode | Status | Done |
 |------|--------|------|
