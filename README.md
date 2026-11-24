@@ -29,6 +29,7 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 - [Configuration (`config.json`, build time only)](#configuration-configjson-build-time-only)
 - [No Return (in development)](#no-return-in-development)
   - [Planned status layout](#planned-status-layout)
+  - [What game metadata can and cannot tell us](#what-game-metadata-can-and-cannot-tell-us)
   - [Kills and progress by mode](#kills-and-progress-by-mode)
   - [Art](#art)
   - [Detection plan](#detection-plan)
@@ -278,6 +279,41 @@ a score is exposed, and a boss encounter drops the kills part entirely
 line 2 falls back to `No Return · planning board`. Mode and location use
 lowercase in the status (`jackson · assault`). Nothing is guessed or carried
 over from the previous encounter.
+
+### What game metadata can and cannot tell us
+
+Here, **metadata** means the No Return save data (`params.json` and the save
+mode flag) plus static game data in the executable. It does **not** mean live
+encounter state. This distinction matters because No Return status is automatic
+but read-only: if a value is not in metadata, it must be resolved from live
+process memory or omitted.
+
+**Readable from metadata / static game data**
+
+| Item | What is readable | Notes |
+|------|------------------|-------|
+| No Return vs Story save | The save mode flag (`00 80` in No Return vs `00 00` in Story) | Enough to tell the two modes apart, not enough to identify an encounter. |
+| Run/save statistics | Difficulty, playtime and collectibles | Decoded from `params.json` for Story; these are save-level values, not live encounter values. |
+| Known content catalogues | 12 operators, encounter areas, 4 modes, 6 bosses and scoring rules | Catalogued from game/reference data. Useful for validating live values and choosing asset keys. |
+| Character and level identifiers | Character/model IDs and No Return level IDs exist as 64-bit FNV-1a StringIds | The names are not normally stored as plain text; a hash-to-name map is required. |
+| Script registry names | Native names such as `rogue-get-player-character`, `rogue-get-overall-mode`, `rogue-get-run-active` and `rogue-get-all-score-data` | The registry hash names are readable, but the getter thunks resolve to one generic VM trampoline. |
+
+**Not readable from metadata / requires live process memory**
+
+| Item | Why metadata is not enough |
+|------|----------------------------|
+| Active operator / `Playing as "{character}"` | No active operator or encounter choice is written to disk. The live active skin slot is visible in memory (`registry +0x40`), but it must be mapped by skin-name prefix, not a single hardcoded hash. |
+| Current location, level or boss phase | The save does not persist the current encounter. The level emitter exposes a hashed `level_id`, and several unknown StringIds are still unresolved. |
+| Overall mode | Named getters exist, but no stable live slot has been validated yet. Mode must be read from the running game and checked against the known mode set. |
+| Kills, kill targets and score | Static emitters show score/kill fields, but no runtime-stable slot is confirmed. Assault's required kills and Hunted's timer grow with run depth, so targets cannot be hardcoded. |
+| Run active / planning-board state | The planning board and encounter transitions are live script state, not save metadata. Getter disassembly was a dead end; raw region snapshots and diffs are the remaining route. |
+| Boss-phase text (`Fighting {Boss}`) | Boss identity and phase live only in memory; the six boss names are catalogued, but the current boss must be detected before any boss text is shown. |
+
+**What this means for presence**
+
+- Metadata can only identify the mode family and provide and statically validate catalogues.
+- The full No Return line needs live, guarded, read-only memory reads.
+- Unknown fields are omitted or fall back to safe assets; they are never guessed from the save.
 
 ### Kills and progress by mode
 
