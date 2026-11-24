@@ -1,5 +1,11 @@
 <h1 align="center">The Last Of Us Part II Discord RPC Mod</h1>
 
+<p align="center">
+  <a href="https://github.com/3bdelrahmanashraf/TLOU2-Discord-Rich-Presence/actions/workflows/ci.yml"><img src="https://github.com/3bdelrahmanashraf/TLOU2-Discord-Rich-Presence/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://www.nexusmods.com/thelastofuspart2/mods/965"><img src="https://img.shields.io/badge/Nexus-Mods-orange.svg" alt="Download on Nexus Mods"></a>
+</p>
+
 ![The Last Of Us Part II Discord RPC Mod](promo/TLOU2-Discord-RPC-promo-1920x1080.png)
 
 Shows what you're playing in The Last of Us Part II Remastered as a Discord status:
