@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a bug with the TLOU2 Discord Rich Presence mod
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please include enough detail to reproduce it.
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod version
+      description: e.g. v1.1.0
+      placeholder: v1.1.0
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version/build
+      description: TLOU2 Remastered version/build if known
+      placeholder: e.g. Steam/PC build
+    validations:
+      required: true
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Install method
+      options:
+        - ASI (avrt.dll + TLOU2DiscordRPC.asi)
+        - VBS launcher (start_tlou2_rpc.vbs)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Step-by-step instructions to reproduce the issue.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Attach relevant logs, screenshots, or Discord presence screenshots. Redact personal data.
+    validations:
+      required: false

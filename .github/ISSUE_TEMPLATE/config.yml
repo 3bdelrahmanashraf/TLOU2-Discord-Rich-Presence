@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: No Return tracking issues
+    url: https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues?q=is%3Aissue+is%3Aopen+No+Return
+    about: Check existing No Return tracking issues before creating a duplicate.

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Python syntax check
+        shell: pwsh
+        run: |
+          python -m py_compile tlou2_rpc.py
+          if (Test-Path promo/make_progress.py) { python -m py_compile promo/make_progress.py }
+
+      - name: Validate JSON files
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -File -Filter *.json | Where-Object { $_.Name -ne "config.json" }
+          foreach ($f in $files) {
+            Get-Content $f.FullName -Raw | ConvertFrom-Json | Out-Null
+            Write-Host "OK $($f.Name)"
+          }

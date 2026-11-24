@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest an improvement or new capability
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a feature or improvement. For No Return, please check existing tracking issues (#2-#32) first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What problem are you trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like to see?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope / constraints
+      description: Any constraints, compatibility concerns, or non-goals.
+    validations:
+      required: false
