@@ -141,8 +141,8 @@ The text works immediately. Images need assets uploaded to your Discord app:
 
    512×512 PNG is the safe size; square crops look best. Ready-made 512×512
    files are already in the `assets\` folder next to this README, including
-   `no_return.png`. The original No Return art is a 400×400 WebP, so it was
-   converted to a real 512×512 PNG for upload.
+   `no_return.png`. The No Return art is kept as a real 512×512 RGB PNG for
+   upload.
 4. **Mission art (optional):** the large image changes with the mission.
    `DISCORD-ASSETS.txt` lists all 46 mission keys (`hillcrest`,
    `the_birthday_gift`, `the_confrontation`, `2425_constance`, ...) grouped by
@@ -447,8 +447,8 @@ and target values.
   Story status and all of its art are unchanged.
 - Identified the No Return save slot and its mode flag (`00 80` versus `00 00`
   in story saves), so the two modes can be told apart.
-- Prepared `assets\no_return.png` as a real 512×512 PNG from the 400×400 WebP
-  source; the Discord key `no_return` still needs a manual upload.
+- Prepared `assets\no_return.png` as a real 512×512 RGB PNG for the Discord app;
+  the Discord key `no_return` still needs a manual upload.
 - Decoded difficulty, playtime and collectibles in `params.json` - fields the
   story status already knows how to render.
 - Confirmed the game's in-game character model IDs (`ellie`, `abby`, `joel` and
@@ -530,7 +530,6 @@ and target values.
 | `rpc.log` | Runtime log, created on first run. |
 | `assets\*.png` | Five ready-made 512×512 Discord art assets, including `no_return.png`. |
 | `DISCORD-ASSETS.txt` | Checklist of all 51 Discord art keys (base, characters, 46 missions and No Return). |
-| `assets\raw\no_return.webp` | Original 400×400 No Return art, converted into `assets\no_return.png`. |
 | `pngs\` | Source art for the character portraits. |
 | `make_assets.ps1` | Rebuilds the four Story assets from `pngs\` and `assets\raw\tlou2.png`. |
 | `dll\launcher.c` | ASI plugin that starts the helper with the game. |

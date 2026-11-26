@@ -5,9 +5,8 @@
 #   assets\raw\tlou2.png (cover art)   -> assets\tlou2.png
 # Run:  powershell -NoProfile -ExecutionPolicy Bypass -File make_assets.ps1
 #
-# assets\no_return.png is committed already. Its source (assets\raw\no_return.webp)
-# is a WebP, which GDI+ cannot decode, so it was converted separately to a real
-# 512x512 PNG with Pillow. Re-run that conversion only if the source changes.
+# assets\no_return.png is committed already as a real 512x512 RGB PNG. It is the
+# current source for the No Return art and is not rebuilt by this script.
 Add-Type -AssemblyName System.Drawing
 Add-Type -ReferencedAssemblies System.Drawing -TypeDefinition @"
 using System;

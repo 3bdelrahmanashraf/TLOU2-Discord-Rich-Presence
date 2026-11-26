@@ -14,9 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A deliberately small No Return status: `Playing NO RETURN` on the only text
   line, with the `no_return` large image (hover: `No Return`) and no state line,
   no timestamps and no small image yet.
-- `assets\no_return.png`: the placeholder art, converted from the original
-  400×400 WebP to a real 512×512 PNG that Discord accepts. The original is kept
-  in `assets\raw\no_return.webp` for reference.
+- `assets\no_return.png`: the placeholder art, kept as a real 512×512 RGB PNG
+  that Discord accepts. The original 400×400 WebP is no longer bundled.
 - `no_return` added to `DISCORD-ASSETS.txt`; the upload checklist is now 51 keys.
 
 ### Changed

@@ -32,7 +32,7 @@ NO RETURN PLACEHOLDER (v1.2.0)
   no_return                      No Return - large image only
 
   Ready to upload: assets\no_return.png (512x512 PNG, RGB).
-  Original source: assets\raw\no_return.webp (400x400 WebP).
+  Current source: the PNG itself; the old WebP source is no longer bundled.
 
 
 JACKSON / PROLOGUE - ELLIE

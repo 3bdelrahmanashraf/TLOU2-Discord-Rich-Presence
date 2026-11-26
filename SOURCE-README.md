@@ -57,9 +57,8 @@ alone - no memory reads, no save edits and no mode picker. A No Return save
 publishes exactly two things: `Playing NO RETURN` and the `no_return` large
 image (hover `No Return`). There is no second text line, small image or timer.
 
-`assets\no_return.png` is a real 512×512 PNG converted from the original
-400×400 WebP (`assets\raw\no_return.webp`) and is ready to upload to the Discord
-app under the exact key `no_return`. If that key is missing, the helper drops
+`assets\no_return.png` is a real 512×512 RGB PNG and is ready to upload to the
+Discord app under the exact key `no_return`. If that key is missing, the helper drops
 images for the No Return status rather than falling back to Story art; the text
 line still works.
 
