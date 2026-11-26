@@ -4,10 +4,13 @@
 
 | Version | Supported |
 |---------|-----------|
+| v1.2.0 (Story + No Return placeholder) | Yes |
 | v1.1.0 (Story support) | Yes |
 | Older releases | No |
 
-No Return support is still in development and is not part of any shipped release.
+Full No Return support is still in development. v1.2.0 only detects the save's
+mode flag and shows a placeholder status (`Playing NO RETURN` plus one large
+image); it does not read process memory or expose live run values.
 
 ## Reporting a vulnerability
 

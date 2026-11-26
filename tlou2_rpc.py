@@ -173,10 +173,31 @@ PLACEHOLDER_CHAPTERS = {
     "new manual save", "new autosave", "new save", "empty", "no data", "---",
 }
 
+# No Return is identified from the trailing 12-byte struct in params.json:
+# bytes 4-5 are the mode flag (00 80 = No Return, 00 00 = Story). This is
+# metadata only - no memory reads, no save edits, no manual mode picker.
+SAVE_STRUCT_RE = re.compile(r"\[([0-9A-Fa-f]{24})\]\s*$")
+NO_RETURN_MODE_FLAG = b"\x00\x80"
+NO_RETURN_DETAILS = "Playing NO RETURN"
+NO_RETURN_ASSET = "no_return"
+NO_RETURN_LARGE_TEXT = "No Return"
+
 
 def usable_detail(detail):
     first = (detail or "").strip().split("\n", 1)[0].strip().lower()
     return bool(first) and first not in PLACEHOLDER_CHAPTERS
+
+
+def is_no_return_detail(detail):
+    """True when the save's trailing struct carries the No Return mode flag."""
+    match = SAVE_STRUCT_RE.search((detail or "").strip())
+    if not match:
+        return False
+    try:
+        raw = bytes.fromhex(match.group(1))
+    except ValueError:
+        return False
+    return len(raw) == 12 and raw[4:6] == NO_RETURN_MODE_FLAG
 
 DEBUG = False
 
@@ -371,6 +392,7 @@ def parse_save(detail, cfg):
     chapter_raw = re.sub(r"\s*\(CHRONOLOGICAL\)\s*$", "", chapter_raw).strip()
 
     playtime, pt_match = parse_playtime(detail)
+    no_return = is_no_return_detail(detail)
 
     modifiers = ""
     if pt_match:
@@ -399,6 +421,9 @@ def parse_save(detail, cfg):
     if chapter_raw.upper() == "COMPLETE":
         chapter_display = "Story complete"
         character = "Ellie & Abby"
+    elif no_return:
+        chapter_display = "No Return"
+        character = guess_character("", cfg)
     elif chapter_raw.upper() == "NO CHAPTER NAMES":
         chapter_display = "Story in progress"
         character = guess_character("", cfg)
@@ -408,6 +433,7 @@ def parse_save(detail, cfg):
         character = guess_character(chapter_raw, cfg)
 
     return {
+        "no_return": no_return,
         "chapter_raw": chapter_raw,
         "chapter": chapter_display,
         "chapter_name": chapter_name,
@@ -486,7 +512,7 @@ def read_state(cfg):
     state["atime"] = chosen["atime"]
     state["selection"] = reason
     state["key"] = "|".join(str(state[k]) for k in (
-        "chapter_raw", "character", "difficulty", "modifiers",
+        "no_return", "chapter_raw", "character", "difficulty", "modifiers",
         "collectibles", "playtime", "selection",
     ))
     return state
@@ -519,10 +545,24 @@ def build_activity(state, cfg):
     presence = cfg["presence"]
     if state is None:
         state = {
+            "no_return": False,
             "chapter": "The Last of Us Part II", "chapter_name": "",
             "subchapter": "", "mission_asset": "", "character": "",
             "difficulty": "", "modifiers": "", "collectibles": None,
             "playtime": None,
+        }
+
+    # v1.2.0 No Return placeholder: one large image and a single text line.
+    # No state line, no timestamps and no small image until live operator data
+    # is confirmed. Never reuse Story art for a No Return run.
+    if state.get("no_return"):
+        return {
+            "instance": True,
+            "details": NO_RETURN_DETAILS,
+            "assets": {
+                "large_image": NO_RETURN_ASSET,
+                "large_text": NO_RETURN_LARGE_TEXT,
+            },
         }
 
     character_name = state["character"] if presence.get("show_character") else ""
@@ -903,7 +943,10 @@ def run(cfg, force=False):
                         # base image before giving up on images entirely, so the
                         # character icons keep working while art is added.
                         bad_large = activity["assets"].get("large_image", "")
-                        if bad_large and bad_large != base_image:
+                        # Story missions may fall back to the base art; a
+                        # missing No Return image must never show Story art.
+                        if (bad_large and bad_large != base_image
+                                and bad_large != NO_RETURN_ASSET):
                             log("asset key '%s' unavailable - retrying with %s"
                                 % (bad_large, base_image))
                             activity["assets"]["large_image"] = base_image
@@ -970,6 +1013,7 @@ def main():
             "source": state["source"],
             "slot": state["slot"],
             "selection": state["selection"],
+            "no_return": state["no_return"],
             "chapter": state["chapter"],
             "chapter_name": state["chapter_name"],
             "subchapter": state["subchapter"],

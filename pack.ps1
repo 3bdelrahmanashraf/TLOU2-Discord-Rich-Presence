@@ -1,7 +1,7 @@
 # Rebuilds the installable Nexus package.
 #
 #   powershell -NoProfile -ExecutionPolicy Bypass -File pack.ps1
-#   powershell -NoProfile -ExecutionPolicy Bypass -File pack.ps1 -Version 1.0.1
+#   powershell -NoProfile -ExecutionPolicy Bypass -File pack.ps1 -Version 1.2.0
 #
 # Needs:
 #   - mingw-w64 on PATH, or -Gcc "C:\path\to\x86_64-w64-mingw32-gcc.exe"
@@ -12,7 +12,7 @@
 # package, so users get no settings file to read, edit or re-point at another
 # Discord application. Edit config.json locally, then rebuild.
 param(
-    [string]$Version = "1.1.0",
+    [string]$Version = "1.2.0",
     [string]$Gcc = "x86_64-w64-mingw32-gcc"
 )
 

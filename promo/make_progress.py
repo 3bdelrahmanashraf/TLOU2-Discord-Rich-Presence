@@ -35,18 +35,19 @@ SECTIONS = [
         "Overall stages",
         [
             ("Story mode (v1.1.0 shipped)", 100, GREEN),
+            ("No Return placeholder (v1.2.0 shipped)", 100, GREEN),
             ("Universal No Return plan", 40, AMBER),
             ("Current-build snapshot capture", 20, AMBER),
             ("Current-build profile & validation", 10, AMBER),
             ("Memory resolver implementation", 0, AMBER),
-            ("Status, art, docs & release", 5, AMBER),
+            ("Status, art, docs & release", 15, AMBER),
         ],
     ),
     (
         "Overall",
         [
             ("Story - shipped in v1.1.0", 100, GREEN),
-            ("No Return - in development, not shipped", 35, AMBER),
+            ("No Return - placeholder in v1.2.0, full support in progress", 40, AMBER),
         ],
     ),
     (
@@ -60,15 +61,17 @@ SECTIONS = [
         ],
     ),
     (
-        "No Return - detailed (not shipped)",
+        "No Return - detailed (v1.2.0 placeholder)",
         [
+            ("Save mode flag auto-detection", 100, GREEN),
+            ("Placeholder presence + large art", 100, GREEN),
             ("Save fields decoded (difficulty, time, collectibles)", 100, GREEN),
-            ("Status lines (mode, gamble, timer)", 30, AMBER),
+            ("Full status lines (mode, gamble, timer)", 30, AMBER),
             ("Operator auto-detection", 45, AMBER),
             ("Encounter / location auto-detection", 25, AMBER),
             ("Live score / kill field map", 45, AMBER),
-            ("Large location + small operator art", 10, AMBER),
-            ("Spec, docs and release", 10, AMBER),
+            ("Full location + operator art", 10, AMBER),
+            ("Spec, docs and release", 15, AMBER),
         ],
     ),
 ]

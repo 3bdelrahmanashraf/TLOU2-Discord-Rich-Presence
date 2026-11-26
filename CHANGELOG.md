@@ -5,6 +5,35 @@ All notable changes to The Last of Us Part II Discord Rich Presence are document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-26
+
+### Added
+- Automatic No Return detection from the save's own metadata: the trailing
+  12-byte struct in `params.json` has a mode flag at bytes 4-5 (`00 80` for
+  No Return, `00 00` for Story). No picker, config change or save edit.
+- A deliberately small No Return status: `Playing NO RETURN` on the only text
+  line, with the `no_return` large image (hover: `No Return`) and no state line,
+  no timestamps and no small image yet.
+- `assets\no_return.png`: the placeholder art, converted from the original
+  400×400 WebP to a real 512×512 PNG that Discord accepts. The original is kept
+  in `assets\raw\no_return.webp` for reference.
+- `no_return` added to `DISCORD-ASSETS.txt`; the upload checklist is now 51 keys.
+
+### Changed
+- A missing `no_return` asset drops images entirely for that status instead of
+  falling back to the Story `tlou2` art. The text line still works.
+- The mode flag is part of the state key, so switching between a Story save and
+  a No Return save updates the presence immediately.
+- README, source README, Nexus page text, progress chart, security policy,
+  contributing guide and issue templates updated for v1.2.0.
+
+### Notes
+- The `no_return` image must be uploaded manually to the Discord application
+  (`1402372564365475861`) under Rich Presence → Art Assets. Until then, No
+  Return shows text only; Story art and status are unchanged.
+- This is a placeholder step, not full No Return support. Operator, location,
+  mode, kills and score are still in development and are not guessed.
+
 ## [1.1.0] - 2026-11-21
 
 ### Added

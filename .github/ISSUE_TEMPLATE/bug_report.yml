@@ -11,8 +11,8 @@ body:
     id: mod-version
     attributes:
       label: Mod version
-      description: e.g. v1.1.0
-      placeholder: v1.1.0
+      description: e.g. v1.2.0
+      placeholder: v1.2.0
     validations:
       required: true
   - type: input

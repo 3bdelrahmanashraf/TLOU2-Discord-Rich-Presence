@@ -8,9 +8,11 @@ Discord application: 1402372564365475861
 Upload one 512x512 PNG for every key below. The key is the exact name Discord
 must store (lowercase, underscores). The helper picks the key automatically
 from the save's mission name; if a key is missing, it falls back to "tlou2".
+No Return is different: it uses only "no_return" and drops images rather than
+showing Story art if that key is unavailable.
 
-There are 50 keys: 1 base, 3 character, 46 missions. "The Farm" is a single
-shared key used in both campaigns.
+There are 51 keys: 1 base, 3 character, 46 missions and 1 No Return
+placeholder. "The Farm" is a single shared key used in both campaigns.
 
 
 BASE ART
@@ -23,6 +25,14 @@ CHARACTER ART (small image)
   ellie                          Ellie
   abby                           Abby
   joel                           Joel
+
+
+NO RETURN PLACEHOLDER (v1.2.0)
+-----------------------------
+  no_return                      No Return - large image only
+
+  Ready to upload: assets\no_return.png (512x512 PNG, RGB).
+  Original source: assets\raw\no_return.webp (400x400 WebP).
 
 
 JACKSON / PROLOGUE - ELLIE
@@ -115,3 +125,5 @@ NOTES
   (config: large_text_template = "{subchapter}").
 - The helper retries with "tlou2" if a mission key has not been uploaded yet,
   so presence keeps working while you add art gradually.
+- No Return never falls back to "tlou2": if "no_return" is missing, that status
+  is text-only ("Playing NO RETURN") until the asset is uploaded.

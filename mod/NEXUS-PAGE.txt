@@ -1,6 +1,6 @@
-[size=6][b]The Last of Us Part II - Discord Rich Presence[/b][/size]
+[center][size=6][b]The Last of Us Part II - Discord Rich Presence[/b][/size][/center]
 
-Shows your chapter, who you are playing as, difficulty, collectibles and playtime as a Discord status while you play The Last of Us Part II Remastered.
+Shows your chapter, who you are playing as, difficulty, collectibles and playtime as a Discord status while you play The Last of Us Part II Remastered. No Return now gets a small placeholder status too: [b]Playing NO RETURN[/b] with a large image.
 
 [img]https://raw.githubusercontent.com/3bdelrahmanashraf/tlou2-discord-rich-presence/main/promo/discord.png[/img]
 
@@ -15,6 +15,7 @@ Shows your chapter, who you are playing as, difficulty, collectibles and playtim
 [*]Updates within a few seconds when you load a save from the load menu, no restart needed
 [*]Clears your status as soon as you quit and exits on its own - nothing runs in the background while the game is closed
 [*]Reads only the game's save metadata: no memory reading, no save editing, no game files touched
+[*]No Return placeholder (v1.2.0): automatic mode detection from the save flag, one large image and the line "Playing NO RETURN" - full No Return support is still planned
 [/list]
 
 [size=5][b]Requirements[/b][/size]
@@ -46,7 +47,7 @@ Nothing else to configure. The mod starts itself with the game.
 There is none - and nothing to break. The display is baked into the helper when it is built, so there is no config file to hunt for, mis-edit, or point at a different Discord application. Install it and play.
 
 [size=5][b]FAQ[/b][/size]
-[b]Does this touch my saves?[/b] No. It only reads params.json (the save's title block) and Windows file access times.
+[b]Does this touch my saves?[/b] No. It only reads params.json (the save's title block) and Windows file access times. No Return detection reads the save's mode flag from that same file; nothing is written.
 
 [b]Does it work with other mods?[/b] Yes. It runs as a separate plugin and does not patch the game, saves or memory. The only thing to watch is another mod using the same avrt.dll filename.
 
@@ -54,7 +55,7 @@ There is none - and nothing to break. The display is baked into the helper when 
 
 [b]Why does the status follow my autosave?[/b] The game rewrites the current autosave at checkpoints and chapter starts. When you load another save from the menu, the mod notices that save was just read and switches immediately.
 
-[b]Mission art not showing?[/b] Artwork lives on the Discord application, not in this download. Until a mission's art asset is uploaded there, the mod shows the standard box art for that mission; the status text and character portraits keep working.
+[b]Mission art not showing?[/b] Artwork lives on the Discord application, not in this download. Until a mission's art asset is uploaded there, the mod shows the standard box art for that mission; the status text and character portraits keep working. No Return uses its own [b]no_return[/b] key and never falls back to the Story box art.
 
 [b]Nothing appears?[/b] Check that Discord is running and that launcher.log exists. If it does not, make sure avrt.dll and TLOU2DiscordRPC.asi are both directly in the game folder next to tlou-ii.exe.
 
@@ -64,6 +65,13 @@ There is none - and nothing to break. The display is baked into the helper when 
 Delete TLOU2DiscordRPC.asi and the TLOU2DiscordRPC folder from the game folder. Nothing else is changed, no registry keys, no services.
 
 [size=5][b]Changelog[/b][/size]
+[b]1.2.0[/b]
+[list]
+[*]Small No Return step: automatic save-mode detection and a "Playing NO RETURN" status with one large image, no small image yet
+[*]Added a 512x512 no_return.png art file for the Discord app; missing No Return art drops images instead of using Story art
+[*]Story status and all story artwork are unchanged
+[/list]
+
 [b]1.1.0[/b]
 [list]
 [*]Mission-specific game art for the large image - all 46 story missions, with the mission name as the hover text
@@ -79,7 +87,7 @@ Delete TLOU2DiscordRPC.asi and the TLOU2DiscordRPC folder from the game folder. 
 [/list]
 
 [size=5][b]Source code[/b][/size]
-Full source, including the C launcher and the build script: [url=https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence]GitHub repository[/url]
+Full source, including the C launcher and the build script: [url=https://github.com/3bdelrahmanashraf/TLOU2-Discord-Rich-Presence]GitHub repository[/url]
 
 The download contains two small compiled files: [b]TLOU2DiscordRPC.asi[/b] (81 KB, built from [code]dll/launcher.c[/code]) and [b]avrt.dll[/b] (44 KB, built from [code]dll/avrt_proxy.c[/code] and [code]dll/avrt_stubs.S[/code]). The proxy forwards to the real Windows AVRT DLL and loads the plugin; the plugin waits, finds the helper script and starts it. Neither touches the game. The helper itself ships as readable Python source and uses only the standard library.
 

@@ -34,6 +34,7 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 - [Nexus package (ASI plugin)](#nexus-package-asi-plugin)
 - [Configuration (`config.json`, build time only)](#configuration-configjson-build-time-only)
 - [No Return (in development)](#no-return-in-development)
+  - [What ships in v1.2.0](#what-ships-in-v120)
   - [Planned status layout](#planned-status-layout)
   - [What game metadata can and cannot tell us](#what-game-metadata-can-and-cannot-tell-us)
   - [Kills and progress by mode](#kills-and-progress-by-mode)
@@ -54,23 +55,25 @@ It can run two ways: as a standalone helper started by `start_tlou2_rpc.vbs`
 ![Story and No Return progress](promo/progress-dark.svg)
 
 It is a snapshot of what is built and verified - not a release schedule. The
-downloadable build is **v1.1.0** and contains story support only.
+downloadable build is **v1.2.0**: complete Story support plus a deliberately
+small No Return placeholder (one large image and `Playing NO RETURN`).
 
 ### Overall stages
 
 | Stage | Status | Progress | Tracking |
 |---|---|---:|---|
 | Story mode (v1.1.0) | Shipped | 100% | Released build |
+| No Return placeholder (v1.2.0) | Shipped | 100% | [#6](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/6) |
 | Universal No Return plan | Drafted | 40% | [#2](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/2) |
 | Current-build snapshot capture | In progress | 20% | [#3](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/3) |
 | Current-build profile & validation | Not started | 10% | [#4](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/4) |
 | Memory resolver implementation | Not started | 0% | [#5](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/5) |
-| Status, art, docs & release | Not started | 5% | [#6](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/6) |
+| Status, art, docs & release | Placeholder shipped; full support pending | 15% | [#6](https://github.com/3bdelrahmanashraf/tlou2-discord-rich-presence/issues/6) |
 
 | Mode | Status | Done |
 |------|--------|------|
 | Story | Shipped in v1.1.0 | 100% |
-| No Return | Address research / design in progress, not shipped | ~35% |
+| No Return | Placeholder shipped in v1.2.0; live fields in development | ~40% |
 
 ### Story - detailed progress (v1.1.0)
 
@@ -82,17 +85,19 @@ downloadable build is **v1.1.0** and contains story support only.
 | Mission-specific large art | 100% | 46 keys; unknown keys fall back to `tlou2`. |
 | Docs, checklist and release | 100% | README, changelog, `DISCORD-ASSETS.txt`, Nexus page. |
 
-### No Return - detailed progress (not shipped)
+### No Return - detailed progress (v1.2.0 placeholder shipped)
 
 | Area | Done | Notes |
 |------|------|-------|
-| Save fields (difficulty, playtime, collectibles, mode flag) | 100% | Decoded from `params.json`; not yet shown in a status. |
-| Mode label / gamble difficulty / timer in the status line | 30% | Layout agreed; wiring waits on the spec. |
+| Save mode flag (`params.json` trailing struct) | 100% | Bytes 4-5 `00 80` = No Return, `00 00` = Story; detection is automatic. |
+| Placeholder presence + large art | 100% | `Playing NO RETURN` and the `no_return` large image; no small image, state line or timer. |
+| Save fields (difficulty, playtime, collectibles) | 100% | Decoded from `params.json`; not rendered in the placeholder status. |
+| Full status lines (character, mode, gamble, timer) | 30% | Layout agreed; wiring waits on live-field validation. |
 | Operator auto-detection | 45% | Active skin slot (`registry + 0x40`) decoded; skin-prefix map and live validation pending. |
 | Encounter / location auto-detection | 25% | Level emitter and script-native names decoded; no live location slot confirmed yet. |
 | Live score / kill field map | 45% | Static field offsets and the score global are decoded; state snapshots pending. |
-| Large (location) + small (operator) art | 10% | Keys and fallbacks planned; no assets uploaded. |
-| Spec, docs and release | 10% | Held until the design is approved. |
+| Full location + operator art | 10% | Planned keys; only the `no_return` placeholder PNG is ready to upload. |
+| Spec, docs and release | 15% | v1.2.0 placeholder documented; full design still held. |
 
 See [No Return (in development)](#no-return-in-development) for the full
 added / missing / needed breakdown.
@@ -126,15 +131,18 @@ The text works immediately. Images need assets uploaded to your Discord app:
    (this is the bold first line of the status).
 3. **Rich Presence → Art Assets** → upload PNGs with these **exact** keys:
 
-   | Key     | Image                       | Used for                       |
-   |---------|-----------------------------|--------------------------------|
-   | `tlou2` | game art / box art          | large image                    |
-   | `ellie` | Ellie portrait              | small image in Ellie chapters  |
-   | `abby`  | Abby portrait               | small image in Abby chapters   |
-   | `joel`  | Joel portrait               | small image in the prologue    |
+   | Key         | Image                       | Used for                        |
+   |-------------|-----------------------------|---------------------------------|
+   | `tlou2`     | game art / box art          | large image in Story            |
+   | `ellie`     | Ellie portrait              | small image in Ellie chapters   |
+   | `abby`      | Abby portrait               | small image in Abby chapters    |
+   | `joel`      | Joel portrait               | small image in the prologue     |
+   | `no_return` | No Return placeholder art   | large image in No Return runs   |
 
    512×512 PNG is the safe size; square crops look best. Ready-made 512×512
-   files are already in the `assets\` folder next to this README.
+   files are already in the `assets\` folder next to this README, including
+   `no_return.png`. The original No Return art is a 400×400 WebP, so it was
+   converted to a real 512×512 PNG for upload.
 4. **Mission art (optional):** the large image changes with the mission.
    `DISCORD-ASSETS.txt` lists all 46 mission keys (`hillcrest`,
    `the_birthday_gift`, `the_confrontation`, `2425_constance`, ...) grouped by
@@ -144,7 +152,9 @@ The text works immediately. Images need assets uploaded to your Discord app:
 
 Until a mission key exists, the helper retries with `tlou2`, so the box art and
 character icons keep working while you add art. If even those are missing it
-falls back to text only; the status text never breaks.
+falls back to text only; the status text never breaks. No Return never uses the
+Story `tlou2` art: if `no_return` is missing it shows only `Playing NO RETURN`
+until you upload that key.
 
 ---
 
@@ -258,14 +268,37 @@ else defaults to Ellie. If a chapter ever guesses wrong, add it to
 
 ## No Return (in development)
 
-No Return support is being designed, not shipped. Nothing in this section is
-part of v1.1.0. The goal is the same automatic, hands-off status as story mode -
-no manual operator or encounter picker, no config file, and no save edits. The
-live values come from a guarded, read-only process-memory scan; the game is
-already elevated, so the helper inherits that and there is no UAC prompt.
+v1.2.0 ships a deliberately small first step: when the save's mode flag
+identifies a No Return run, the status shows one large image and the single
+line `Playing NO RETURN`. The planned full No Return version below is still
+needed and unchanged - this placeholder does not replace it. The goal remains
+the same automatic, hands-off status as story mode - no manual
+operator or encounter picker, no config file, and no save edits. Live values,
+when they are ready, will come from a guarded, read-only process-memory scan;
+the game is already elevated, so the helper inherits that and there is no UAC
+prompt.
+
+### What ships in v1.2.0
+
+| Field | v1.2.0 value |
+|-------|--------------|
+| Detection | Automatic: bytes 4-5 of the trailing 12-byte struct in `params.json` are `00 80` (Story saves use `00 00`). |
+| Line 1 | `Playing NO RETURN` |
+| Line 2 | None - deliberately empty for now. |
+| Large image | `no_return` (hover: `No Return`). |
+| Small image | None. |
+| Playtime timer | None. |
+| Art file | `assets\no_return.png` - a real 512×512 PNG ready for the Discord app. |
+
+The image must be uploaded manually under the exact key `no_return`. If it is
+missing, the helper drops images for that status rather than showing Story art;
+the text line still works. Switching between a Story save and a No Return save
+updates the presence on the next poll because the mode flag is part of the
+state key.
 
 ### Planned status layout
 
+This is the full layout for a later version, **not** what v1.2.0 renders.
 Discord gives us two text lines plus the two image hover texts. The character
 is always shown; location and mode are always in line 2, with kills and score
 appended as soon as the game exposes live values. Hovering the large image
@@ -341,7 +374,8 @@ That is another reason every displayed number must come from the live value.
 
 ### Art
 
-Same visual language as story mode:
+v1.2.0 uses only the `no_return` large image. The full layout planned for a
+later version follows the same visual language as story mode:
 
 - **Large image** = the encounter location, one key per area (e.g. `jackson`,
   `gondola_station`, `subway_station`, `overpass`) plus a key per boss. The
@@ -349,8 +383,10 @@ Same visual language as story mode:
   location's full name, so `jackson` shows `Jackson` on hover.
 - **Small image** = the operator portrait (`ellie`, `abby`, `joel` and the other
   operators), reusing the story small-icon style.
-- Missing keys fall back to `tlou2` (large) and the character portrait (small),
-  exactly as story art does. A missing asset never breaks the status text.
+- Missing future location/operator keys fall back to `tlou2` (large) and the
+  character portrait (small), exactly as story art does. A missing asset never
+  breaks the status text. The shipped `no_return` key is the exception: it
+  drops images instead of falling back to Story art.
 
 ### Detection plan
 
@@ -368,10 +404,11 @@ Same visual language as story mode:
 
 ### Memory address findings (research only)
 
-These are **findings for the current executable, not offsets used by v1.1.0**.
-Static VAs below assume ImageBase `0x140000000`; subtract the module base to get
-the RVA, then add the live module base at runtime. Nothing here is wired into the
-shipped helper, and a game update can move every address.
+These are **findings for the current executable, not offsets used by the shipped
+helper (v1.2.0 stays metadata-only)**. Static VAs below assume ImageBase
+`0x140000000`; subtract the module base to get the RVA, then add the live module
+base at runtime. Nothing here is wired into the helper, and a game update can
+move every address.
 
 | Area | Static VA / RVA | Confirmed detail |
 |------|-----------------|------------------|
@@ -405,8 +442,13 @@ and target values.
 
 ### What's added / confirmed
 
+- v1.2.0 detects No Return automatically from the save's mode flag and shows
+  the minimal `Playing NO RETURN` status with the `no_return` large image.
+  Story status and all of its art are unchanged.
 - Identified the No Return save slot and its mode flag (`00 80` versus `00 00`
   in story saves), so the two modes can be told apart.
+- Prepared `assets\no_return.png` as a real 512×512 PNG from the 400×400 WebP
+  source; the Discord key `no_return` still needs a manual upload.
 - Decoded difficulty, playtime and collectibles in `params.json` - fields the
   story status already knows how to render.
 - Confirmed the game's in-game character model IDs (`ellie`, `abby`, `joel` and
@@ -431,16 +473,17 @@ and target values.
 - Automatic operator detection: the active skin slot is decoded, but the
   skin-name prefix map and the implementation are not finished.
 - Automatic encounter / location and mode detection, including boss encounters.
-- The planned status lines themselves: `Playing as "{character}"`, the
-  `{location} · {mode} · {kills} · {score}` line, and the location hover on the
-  large image. None of these are rendered yet.
+- The full status lines beyond the v1.2.0 placeholder: `Playing as "{character}"`,
+  the `{location} · {mode} · {kills} · {score}` line, and the location hover on
+  the large image. v1.2.0 renders only `Playing NO RETURN`.
 - Live score and kill counters: the static field offsets are known, but no
   runtime-stable slot or mode-specific target value has been confirmed yet, so
   Hunted's `7 kills` and Assault's `kills 2/6` are design, not working output.
-- No Return artwork: a large image per location/boss and a small operator
-  portrait, with the same graceful fallback as story art.
-- A written spec, tests, changelog entry and release. The version stays at
-  1.1.0 until the design is approved.
+- Full No Return artwork: a large image per location/boss and a small operator
+  portrait. v1.2.0 uses only the `no_return` placeholder large image and no
+  small image.
+- A full spec, tests and release for live No Return fields. v1.2.0 is the
+  approved minimal placeholder only; nothing beyond it is approved yet.
 
 ### What's needed next
 
@@ -454,9 +497,9 @@ and target values.
    fallbacks so a missed read never blanks the status.
 4. Approve the status templates and asset-key naming above, then upload the
    images.
-5. Implement behind the guarded read path, document it, and only then bump the
-   version and package a release. v1.2.0 is only a proposal - no version bump
-   happens until the design is approved.
+5. Implement the full live fields behind the guarded read path, document them
+   and agree the next version. The planned full design is unchanged and still
+   needed; v1.2.0 is only the small placeholder step, not a replacement.
 
 ---
 
@@ -469,6 +512,7 @@ and target values.
 | Nothing appears with the plugin | Check `launcher.log`; if it is missing, make sure `avrt.dll` and the `.asi` are both in the game folder. |
 | Status lags behind | Expected - it updates at checkpoints, not per second. Loading a save updates it within ~3 s. |
 | Mission art not showing | That mission key isn't uploaded yet - see `DISCORD-ASSETS.txt`. It falls back to `tlou2` until you upload it. |
+| No Return shows text but no image | Upload `assets\no_return.png` to the Discord app under the exact key `no_return`. It never falls back to the Story `tlou2` art. |
 | Two copies running | Not possible; the second instance exits silently. |
 | Wrong character | Edit `character_overrides` or set `character`. |
 
@@ -484,10 +528,11 @@ and target values.
 | `config.json` | All settings. |
 | `start_tlou2_rpc.vbs` | Silent launcher (hidden window). |
 | `rpc.log` | Runtime log, created on first run. |
-| `assets\*.png` | The four ready-made 512×512 Discord art assets. |
-| `DISCORD-ASSETS.txt` | Checklist of all 46 mission asset keys + 4 base/character keys to upload. |
+| `assets\*.png` | Five ready-made 512×512 Discord art assets, including `no_return.png`. |
+| `DISCORD-ASSETS.txt` | Checklist of all 51 Discord art keys (base, characters, 46 missions and No Return). |
+| `assets\raw\no_return.webp` | Original 400×400 No Return art, converted into `assets\no_return.png`. |
 | `pngs\` | Source art for the character portraits. |
-| `make_assets.ps1` | Rebuilds `assets\` from `pngs\` and `assets\raw\tlou2.png`. |
+| `make_assets.ps1` | Rebuilds the four Story assets from `pngs\` and `assets\raw\tlou2.png`. |
 | `dll\launcher.c` | ASI plugin that starts the helper with the game. |
 | `dll\avrt_proxy.c`, `dll\avrt_stubs.S`, `dll\avrt_proxy.def` | Source of the `avrt.dll` proxy that loads the plugin. |
 | `dll\avrt.dll` | Built proxy (copy of the one in the game folder). |

@@ -29,9 +29,10 @@ each file does.
   not** read process memory. **Does not** write to or alter saves. There is no
   network traffic other than the local Discord pipe.
 
-  This describes the shipped v1.1.0 (story mode). No Return support is still in
-  design; if it ships, it will read live game memory and this section will be
-  updated in that release. See the progress sections in `README.md`.
+  This describes the shipped v1.2.0: story mode is unchanged, and No Return is
+  detected from save metadata for a placeholder status (one large image and
+  `Playing NO RETURN`). Full No Return support will use guarded live memory
+  reads and will update this section in that release. See `README.md`.
 
 `avrt.dll` only forwards Windows AVRT calls and loads the `.asi`; the `.asi`
 only starts a Python process and then exits its own thread. Neither hooks the
@@ -47,6 +48,20 @@ single shared key, `the_farm`, in both campaigns. The hover text is
 the mission name by default (`large_text_template = "{subchapter}"`). An
 unknown or not-yet-uploaded key falls back to `tlou2`; the presence never
 loses its text because of missing art.
+
+### No Return placeholder (v1.2.0)
+
+The trailing 12-byte struct in a save's `params.json` carries the mode flag at
+bytes 4-5: `00 80` means No Return, `00 00` means Story. v1.2.0 uses that flag
+alone - no memory reads, no save edits and no mode picker. A No Return save
+publishes exactly two things: `Playing NO RETURN` and the `no_return` large
+image (hover `No Return`). There is no second text line, small image or timer.
+
+`assets\no_return.png` is a real 512×512 PNG converted from the original
+400×400 WebP (`assets\raw\no_return.webp`) and is ready to upload to the Discord
+app under the exact key `no_return`. If that key is missing, the helper drops
+images for the No Return status rather than falling back to Story art; the text
+line still works.
 
 ## What is in the release archive
 
@@ -83,7 +98,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\pack.ps1 `
   -Gcc "C:\path\to\x86_64-w64-mingw32-gcc.exe"
 ```
 
-Output: `dist\TLOU2-Discord-Rich-Presence-1.1.0.zip`.
+Output: `dist\TLOU2-Discord-Rich-Presence-1.2.0.zip`.
 
 `client_id` is the Discord application ID that owns the presence name and art
 assets. The published build points at the author's application; the repository

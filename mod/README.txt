@@ -22,6 +22,12 @@ Joel). Artwork lives on the Discord application, not in this download, so the
 mission art shows only once those art assets have been uploaded there. Until
 then the box art is used; the status text works either way.
 
+In No Return, v1.2.0 shows a smaller status: "Playing NO RETURN" with one large
+image and no small image. It uses the separate Discord key "no_return". If that
+key is not uploaded, the status is text-only - it never uses the Story box art.
+The full No Return status (operator, location, mode, kills and score) is still
+planned and is not in this version.
+
 
 REQUIREMENTS
 ------------
@@ -113,7 +119,8 @@ TROUBLESHOOTING
   launcher.log is missing, make sure avrt.dll and the .asi are both in the game
   folder next to tlou-ii.exe.
 - Text but no images: the Discord application's art assets are missing; the
-  helper intentionally falls back to text-only instead of failing.
+  helper intentionally falls back to text-only instead of failing. For No
+  Return, upload the 512x512 no_return.png asset under the key "no_return".
 - Status shows the wrong save: send me rpc.log with the chapter names you saw.
 - Game won't start: remove avrt.dll and TLOU2DiscordRPC.asi to confirm the mod
   is the cause, then report it. Neither file hooks or patches the game: the
